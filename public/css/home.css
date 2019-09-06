@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe|Palanquin|Rozha+One");
+body {
+  /* The image used */
+
+  /* Full height */
+
+  /* Center and scale the image nicely */
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: "ZCOOL KuaiLe";
+}
+.hindi {
+  font-family: Palanquin;
+}
+.hindi-title {
+  font-family: "Rozha One";
+}
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  background-color: mintcream;
+}
+.ques {
+  font-size: 35px;
+}
