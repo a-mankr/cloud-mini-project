@@ -10,6 +10,14 @@ router.get("/scoreupdate", (req, res) => {
   res.render("scoreupdate");
 });
 
+router.get("/vote", (req, res) => {
+  res.render("vote");
+});
+
+router.get("/question/:qno", (req, res) => {
+  res.render("question", { qno: req.params.qno });
+});
+
 router.get("/reset", (req, res) => {
   res.render("reset");
 });
