@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+
+    <!-- <script src="/scripts/typedjs.js"></script> -->
+
+    <title>Bluffmaster</title>
+    <style>
+      body {
+        /* background-color: green; */
+        background-size: cover;
+      }
+      img {
+        max-width: 100%;
+        max-height: auto;
+      }
+      .big {
+        font-size: 100px;
+        color: black;
+      }
+      .welcome {
+        margin-top: 15%;
+      }
+    </style>
+  </head>
+  <body>
+    <header><%- include ./header %></header>
+
+    <div class="container-fluid">
+      <h1>Whom do you want to vote out?</h1>
+      <ul>
+        <li>Team A</li>
+        <li>Team B</li>
+        <li>Team C</li>
+        <li>Team D</li>
+        <li>Team E</li>
+      </ul>
+    </div>
+
+    <footer><%- include ./footer %></footer>
+  </body>
+</html>

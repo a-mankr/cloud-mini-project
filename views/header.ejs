@@ -30,14 +30,14 @@
           aria-haspopup="true"
           aria-expanded="false"
         >
-          Rounds
+          Question
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <!-- <a class="dropdown-item" href="#">Action</a>
             <a class="dropdown-item" href="#">Another action</a> -->
-          <% for (let i = 1;i <= 5;i++){ %>
-          <a class="dropdown-item text-capitalize" href="/round/<%= i %>"
-            >Round <%= i %></a
+          <% for (let i = 1;i <= 10;i++){ %>
+          <a class="dropdown-item text-capitalize" href="/question/<%= i %>"
+            >Question <%= i %></a
           >
           <% } %>
 
@@ -48,6 +48,9 @@
 
       <li class="nav-item">
         <a class="nav-link" href="/scoreupdate">Update score</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/vote" style="color: goldenrod">Vote!</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">

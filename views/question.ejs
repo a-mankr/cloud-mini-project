@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+
+    <!-- <script src="/scripts/typedjs.js"></script> -->
+
+    <title>Bluffmaster</title>
+    <style>
+      body {
+        /* background-color: green; */
+        background-size: cover;
+      }
+      img {
+        max-width: 100%;
+        max-height: auto;
+      }
+      .big {
+        font-size: 100px;
+        color: black;
+      }
+      .welcome {
+        margin-top: 15%;
+      }
+    </style>
+  </head>
+  <body>
+    <header><%- include ./header %></header>
+
+    <div class="container" align="center">
+      <div class="card" style="margin-top: 2%">
+        <div class="card-body">
+          <h1>Question <%= qno %></h1>
+        </div>
+      </div>
+      <div class="card" style="width: 80%;margin-bottom: 3%;">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item"
+            id="option1"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option2"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option3"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option4"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option5"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option6"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option7"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option8"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option9"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+          <li
+            class="list-group-item"
+            id="option10"
+            style="margin:1px;background-color: gray"
+          >
+            Cras justo odio
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      for (let i = 1; i <= 10; i++) {
+        $("#option" + i).on({
+          mouseenter: function() {
+            $("#option" + i).css("background-color", "white");
+          },
+          mouseleave: function() {
+            $("#option" + i).css("background-color", "gray");
+          }
+        });
+      }
+    </script>
+    <footer><%- include ./footer %></footer>
+  </body>
+</html>
