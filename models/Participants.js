@@ -17,6 +17,10 @@ var ParticipantsSchema = mongoose.Schema({
   name: {
     type: String
   },
+  isBluff: {
+    type: Boolean,
+    default: false
+  },
   profileimage: {
     type: String
   }
