@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+
+    <!-- <script src="/scripts/typedjs.js"></script> -->
+
+    <title><%- title %></title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      div {
+        width: 33.33%;
+        height: 50%;
+        float: left;
+      }
+      #div1 {
+        background: #eee;
+      }
+      #div2 {
+        background: #ccc;
+      }
+      #div3 {
+        background: #eee;
+      }
+      #div4 {
+        background: #ccc;
+      }
+      #div5 {
+        background: #eee;
+      }
+      #div6 {
+        background: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <!--add controls in future if required-->
+            <li class="nav-item">
+              <a class="nav-link" href="/admin/question/form"
+                >Upload questions</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/participants/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div id="div1">
+      Select question to display
+      <ul>
+        <li><a href="#" id="change-to-question1">Q.1</a></li>
+        <li><a href="#" id="change-to-question2">Q.2</a></li>
+        <li><a href="#" id="change-to-question3">Q.3</a></li>
+        <li><a href="#" id="change-to-question4">Q.4</a></li>
+        <li><a href="#" id="change-to-question5">Q.5</a></li>
+      </ul>
+    </div>
+    <div id="div2">
+      Choose bluffmaster
+      <ul>
+        <li>Team A</li>
+        <li>Team B</li>
+        <li>Team C</li>
+        <li>Team D</li>
+        <li>Team E</li>
+        <li>Team F</li>
+      </ul>
+    </div>
+    <div id="div3">
+      voting details
+    </div>
+    <div id="div4">
+      <p id="question"></p>
+    </div>
+    <div id="div5">
+      correct options: <br />
+      <ul id="correctoptions"></ul>
+    </div>
+    <div id="div6"></div>
+    <script>
+      for (let i = 0; i < 5; i++) {
+        $("#change-to-question" + (i + 1)).on("click", () => {
+          console.log("clicked");
+          $.ajax({
+            url: `/fetch/question/${i + 1}`,
+            success: function(result) {
+              console.log(result);
+              if (result && result.question.length > 0) {
+                $("#question").text(result.question[0].question.statement);
+                for (
+                  let i = 0;
+                  i < result.question[0].question.correctoptions.length;
+                  i++
+                ) {
+                  let x = $("<li></li>");
+                  $(x).text(
+                    result.question[0].question.correctoptions[i].option
+                  );
+                  $("#correctoptions").append(x);
+                }
+                alert("Question changed!");
+              } else {
+                $("#question").text("");
+                $("#correctoptions").empty();
+                alert("Question not found!");
+              }
+            }
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

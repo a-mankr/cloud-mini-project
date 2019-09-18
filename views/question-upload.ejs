@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+
+    <!-- <script src="/scripts/typedjs.js"></script> -->
+
+    <title><%- title %></title>
+    <style>
+      .left {
+        float: left;
+        width: 49%;
+        display: inline;
+      }
+      .right {
+        float: left;
+        margin-left: 2%;
+        width: 49%;
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <!--add controls in future if required-->
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Back to admin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/participants/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <h4>Form for uploading questions</h4>
+      <form action="/feed/question" method="POST">
+        <div class="form-group" style="float: left;width: 10%;display: inline;">
+          <label for="qno">Question no</label><br />
+          <input
+            type="text"
+            name="qno"
+            class="form-control"
+            placeholder="Question no."
+            required
+          />
+        </div>
+        <div
+          class="form-group"
+          style="float: left;width: 85%;margin-left:5%;display: inline;"
+        >
+          <label for="question">Question</label><br />
+          <input
+            type="text"
+            name="question"
+            class="form-control"
+            placeholder="Question"
+            required
+          />
+        </div>
+        <div class="form-group left">
+          <label for="correctoptions">Correct options</label>
+          <input
+            type="text"
+            name="correctoption1"
+            class="form-control"
+            placeholder="Correct option 1"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption2"
+            class="form-control"
+            placeholder="Correct option 2"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption3"
+            class="form-control"
+            placeholder="Correct option 3"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption4"
+            class="form-control"
+            placeholder="Correct option 4"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption5"
+            class="form-control"
+            placeholder="Correct option 5"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption6"
+            class="form-control"
+            placeholder="Correct option 6"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption7"
+            class="form-control"
+            placeholder="Correct option 7"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption8"
+            class="form-control"
+            placeholder="Correct option 8"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption9"
+            class="form-control"
+            placeholder="Correct option 9"
+            required
+          />
+          <input
+            type="text"
+            name="correctoption10"
+            class="form-control"
+            placeholder="Correct option 10"
+            required
+          />
+        </div>
+        <div class="form-group right">
+          <label for="incorrectoptions">Incorrect options</label>
+          <input
+            type="text"
+            name="incorrectoption1"
+            class="form-control"
+            placeholder="Incorrect option 1"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption2"
+            class="form-control"
+            placeholder="Incorrect option 2"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption3"
+            class="form-control"
+            placeholder="Incorrect option 3"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption4"
+            class="form-control"
+            placeholder="Incorrect option 4"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption5"
+            class="form-control"
+            placeholder="Incorrect option 5"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption6"
+            class="form-control"
+            placeholder="Incorrect option 6"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption7"
+            class="form-control"
+            placeholder="Incorrect option 7"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption8"
+            class="form-control"
+            placeholder="Incorrect option 8"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption9"
+            class="form-control"
+            placeholder="Incorrect option 9"
+            required
+          />
+          <input
+            type="text"
+            name="incorrectoption10"
+            class="form-control"
+            placeholder="Incorrect option 10"
+            required
+          />
+        </div>
+        <div style="margin-bottom: 10px">
+          <button type="submit" class="btn btn-success">Upload</button>
+          <button type="reset" class="btn btn-danger">Reset</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
