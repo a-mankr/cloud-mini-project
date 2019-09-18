@@ -4,7 +4,9 @@ var router = express.Router();
 
 router.get("/", loggedIn, (req, res) => {
   let qno = 2; // TODO: fetch question number from DB
-  res.render("question", { qno: qno, title: "Bluffmaster" });
+  console.log(req.user);
+  if (req.user.username === "admin") res.redirect("/admin");
+  else res.render("question", { qno: qno, title: "Bluffmaster" });
 });
 
 router.get("/scoreupdate", (req, res) => {

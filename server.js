@@ -25,6 +25,10 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// database connection
+let initDb = require("./config/init").initDb;
+initDb();
+
 // Handle sessions
 app.use(
   session({
