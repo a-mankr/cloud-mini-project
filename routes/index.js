@@ -2,8 +2,9 @@
 var express = require("express");
 var router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("home");
+router.get("/", loggedIn, (req, res) => {
+  let qno = 2; // TODO: fetch question number from DB
+  res.render("question", { qno: qno, title: "Bluffmaster" });
 });
 
 router.get("/scoreupdate", (req, res) => {
@@ -11,11 +12,14 @@ router.get("/scoreupdate", (req, res) => {
 });
 
 router.get("/vote", (req, res) => {
-  res.render("vote");
+  res.render("vote", { title: "Vote!" });
 });
 
 router.get("/question/:qno", (req, res) => {
-  res.render("question", { qno: req.params.qno });
+  res.render("question", {
+    qno: req.params.qno,
+    title: "Q-" + req.params.qno
+  });
 });
 
 router.get("/reset", (req, res) => {
@@ -54,5 +58,14 @@ router.get("/scoreboard", (req, res) => {
 router.get("/thankyou", (req, res) => {
   res.render("thankyou");
 });
+
+// middleware to check if user is logged in
+function loggedIn(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect("/participants/login");
+  }
+}
 
 module.exports = router;

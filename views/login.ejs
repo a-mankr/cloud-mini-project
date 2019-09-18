@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+
+    <!-- <script src="/scripts/typedjs.js"></script> -->
+
+    <title><%- title %></title>
+    <style>
+      body {
+        /* background-color: green; */
+        background-size: cover;
+      }
+      img {
+        max-width: 100%;
+        max-height: auto;
+      }
+      .big {
+        font-size: 100px;
+        color: black;
+      }
+      .welcome {
+        margin-top: 15%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <!--add controls in future if required-->
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container">
+      <h2 class="page-header">
+        Login
+      </h2>
+      <p>Please login using the form below!</p>
+
+      <form action="/participants/login" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label><br />
+          <input
+            type="text"
+            name="username"
+            class="form-control"
+            placeholder="Enter Username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label><br />
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Enter Password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-success">Login</button>
+      </form>
+    </div>
+
+    <footer><%- include ./footer %></footer>
+  </body>
+</html>

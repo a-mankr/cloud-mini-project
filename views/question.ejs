@@ -5,7 +5,7 @@
 
     <!-- <script src="/scripts/typedjs.js"></script> -->
 
-    <title>Bluffmaster</title>
+    <title><%- title %></title>
     <style>
       body {
         /* background-color: green; */
@@ -25,7 +25,38 @@
     </style>
   </head>
   <body>
-    <header><%- include ./header %></header>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/scoreboard">scoreboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/vote" style="color: goldenrod"
+                >Vote!</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/participants/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
 
     <div class="container" align="center">
       <div class="card" style="margin-top: 2%">
