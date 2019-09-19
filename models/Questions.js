@@ -7,8 +7,7 @@ const optionSchema = new Schema({
 });
 const questionSchema = new Schema({
   statement: String,
-  correctoptions: [optionSchema],
-  incorrectoptions: [optionSchema]
+  correctoptions: [optionSchema]
 });
 
 module.exports = mongoose.model(
