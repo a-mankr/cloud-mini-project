@@ -98,19 +98,23 @@
     </div>
     <div id="div5">
       correct options: <br />
-      <ul id="correctoptions"></ul>
+      <ol id="correctoptions"></ol>
     </div>
     <div id="div6"></div>
     <script>
       for (let i = 0; i < 5; i++) {
         $("#change-to-question" + (i + 1)).on("click", () => {
           console.log("clicked");
+          $.post("/feed/setcurrentquestion/" + (i + 1), function(data, status) {
+            alert("Data: " + data + "\nStatus: " + status);
+          });
           $.ajax({
             url: `/fetch/question/${i + 1}`,
             success: function(result) {
               console.log(result);
               if (result && result.question.length > 0) {
                 $("#question").text(result.question[0].question.statement);
+                $("#correctoptions").empty();
                 for (
                   let i = 0;
                   i < result.question[0].question.correctoptions.length;

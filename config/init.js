@@ -10,5 +10,6 @@ module.exports.initDb = function() {
     console.log("Connected");
     Participants = require("../models/Participants");
     Questions = require("../models/Questions");
+    Variables = require("../models/Variables");
   });
 };

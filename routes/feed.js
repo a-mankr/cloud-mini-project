@@ -14,17 +14,7 @@ router.post("/question", (req, res, next) => {
     correctoption7,
     correctoption8,
     correctoption9,
-    correctoption10,
-    incorrectoption1,
-    incorrectoption2,
-    incorrectoption3,
-    incorrectoption4,
-    incorrectoption5,
-    incorrectoption6,
-    incorrectoption7,
-    incorrectoption8,
-    incorrectoption9,
-    incorrectoption10
+    correctoption10
   } = req.body;
   const correctoptions = [
     { optionNo: 1, option: correctoption1 },
@@ -38,25 +28,12 @@ router.post("/question", (req, res, next) => {
     { optionNo: 9, option: correctoption9 },
     { optionNo: 10, option: correctoption10 }
   ];
-  const incorrectoptions = [
-    { optionNo: 1, option: incorrectoption1 },
-    { optionNo: 2, option: incorrectoption2 },
-    { optionNo: 3, option: incorrectoption3 },
-    { optionNo: 4, option: incorrectoption4 },
-    { optionNo: 5, option: incorrectoption5 },
-    { optionNo: 6, option: incorrectoption6 },
-    { optionNo: 7, option: incorrectoption7 },
-    { optionNo: 8, option: incorrectoption8 },
-    { optionNo: 9, option: incorrectoption9 },
-    { optionNo: 10, option: incorrectoption10 }
-  ];
 
   let ques = new Questions({
     qno: qno,
     question: {
       statement: question,
-      correctoptions: correctoptions,
-      incorrectoptions: incorrectoptions
+      correctoptions: correctoptions
     },
     isDone: false
   });
@@ -69,4 +46,16 @@ router.post("/question", (req, res, next) => {
     res.send(req.body);
   });
 });
+
+router.post("/setcurrentquestion/:qno", (req, res, next) => {
+  Variables.update(
+    { identifier: "correct" },
+    { $set: { currentQuestion: req.params.qno } },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+
 module.exports = router;
