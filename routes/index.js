@@ -3,10 +3,26 @@ var express = require("express");
 var router = express.Router();
 
 router.get("/", loggedIn, (req, res) => {
-  let qno = 2; // TODO: fetch question number from DB
-  console.log(req.user);
-  if (req.user.username === "admin") res.redirect("/admin");
-  else res.render("question", { qno: qno, title: "Bluffmaster" });
+  if (req.user.username === "admin")
+    res.render("admin", { title: "Bluff Admin" });
+  else {
+    Variables.find({ identifier: "correct" }, (err, values) => {
+      if (err) {
+        res.render("question", { question: null, title: "Bluffmaster" });
+      } else {
+        Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
+          if (err) {
+            res.render("question", { question: null, title: "Bluffmaster" });
+          } else {
+            res.render("question", {
+              question: question,
+              title: "Bluffmaster"
+            });
+          }
+        });
+      }
+    });
+  }
 });
 
 router.get("/scoreupdate", (req, res) => {
