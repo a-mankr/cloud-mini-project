@@ -3,20 +3,33 @@ var express = require("express");
 var router = express.Router();
 
 router.get("/", loggedIn, (req, res) => {
-  if (req.user.username === "admin")
-    res.render("admin", { title: "Bluff Admin" });
-  else {
+  if (req.user.username === "admin") {
+    Participants.find({}, (err, participants) => {
+      if (err) throw err;
+      else {
+        res.render("admin", {
+          title: "Bluff Admin",
+          participants: participants
+        });
+      }
+    });
+  } else {
     Variables.find({ identifier: "correct" }, (err, values) => {
       if (err) {
         res.render("question", { question: null, title: "Bluffmaster" });
       } else {
         Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
           if (err) {
-            res.render("question", { question: null, title: "Bluffmaster" });
+            res.render("question", {
+              question: null,
+              title: "Bluffmaster",
+              isBluff: req.user.isBluff
+            });
           } else {
             res.render("question", {
               question: question,
-              title: "Bluffmaster"
+              title: "Bluffmaster",
+              isBluff: req.user.isBluff
             });
           }
         });
@@ -30,7 +43,21 @@ router.get("/scoreupdate", (req, res) => {
 });
 
 router.get("/vote", (req, res) => {
-  res.render("vote", { title: "Vote!" });
+  Participants.find(
+    { username: { $ne: req.user.username } },
+    (err, opponents) => {
+      if (err) throw err;
+      else {
+        // console.log(opponents);
+        res.render("vote", { title: "Vote!", opponents: opponents });
+      }
+    }
+  );
+});
+
+router.post("/vote/opponent/:p_id", (req, res) => {
+  // console.log("You voted for opponent " + req.params.p_id);
+  res.send("You voted for opponent " + req.params.p_id);
 });
 
 router.get("/question/:qno", (req, res) => {

@@ -58,4 +58,34 @@ router.post("/setcurrentquestion/:qno", (req, res, next) => {
   );
 });
 
+router.post("/selectbluffmaster/:p_id", (req, res, next) => {
+  Variables.update(
+    { identifier: "correct" },
+    { $set: { bluffTeam: req.params.p_id } },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+  Participants.update(
+    { p_id: req.params.p_id },
+    { $set: { isBluff: true } },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+router.post("/resetbluffmaster", (req, res, next) => {
+  Participants.update(
+    {},
+    { $set: { isBluff: false } },
+    { multi: true },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+
 module.exports = router;

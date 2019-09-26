@@ -8,19 +8,29 @@
     <title><%- title %></title>
     <style>
       body {
-        /* background-color: green; */
         background-size: cover;
+        background-repeat: no-repeat;
       }
       img {
         max-width: 100%;
         max-height: auto;
       }
-      .big {
-        font-size: 100px;
-        color: black;
+      @media (min-width: 400px) {
+        body {
+          background-image: url("/image/bg-mob.jpg");
+        }
       }
-      .welcome {
-        margin-top: 15%;
+
+      @media (min-width: 500px) {
+        body {
+          background: #888888;
+        }
+      }
+
+      @media (min-width: 600px) {
+        body {
+          background-image: url("/image/bg-pc.jpg");
+        }
       }
     </style>
   </head>
@@ -42,6 +52,11 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+            <% if(isBluff) { %>
+            <li>
+              👺 You're the Bluffmaster 👺
+            </li>
+            <% }%>
             <li class="nav-item">
               <a class="nav-link" href="/scoreboard">scoreboard</a>
             </li>
@@ -100,6 +115,5 @@
         });
       }
     </script>
-    <footer><%- include ./footer %></footer>
   </body>
 </html>

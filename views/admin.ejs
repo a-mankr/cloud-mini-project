@@ -13,7 +13,7 @@
         padding: 0;
         margin: 0;
       }
-      div {
+      .sections {
         width: 33.33%;
         height: 50%;
         float: left;
@@ -36,6 +36,25 @@
       #div6 {
         background: #ccc;
       }
+      .toastlikemessage {
+        width: 200px;
+        height: 20px;
+        height: auto;
+        position: absolute;
+        left: 50%;
+        margin-left: -100px;
+        bottom: 10px;
+        background-color: #383838;
+        color: #f0f0f0;
+        font-family: Calibri;
+        font-size: 20px;
+        padding: 10px;
+        text-align: center;
+        border-radius: 2px;
+        -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+        box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+      }
     </style>
   </head>
   <body>
@@ -57,6 +76,9 @@
           <ul class="navbar-nav mr-auto">
             <!--add controls in future if required-->
             <li class="nav-item">
+              <a class="nav-link" href="/participants/register">Add Users</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/admin/question/form"
                 >Upload questions</a
               >
@@ -69,7 +91,7 @@
       </nav>
     </header>
 
-    <div id="div1">
+    <div id="div1" class="sections">
       Select question to display
       <ul>
         <li><a href="#" id="change-to-question1">Q.1</a></li>
@@ -79,62 +101,94 @@
         <li><a href="#" id="change-to-question5">Q.5</a></li>
       </ul>
     </div>
-    <div id="div2">
+    <div id="div2" class="sections">
       Choose bluffmaster
       <ul>
-        <li>Team A</li>
-        <li>Team B</li>
-        <li>Team C</li>
-        <li>Team D</li>
-        <li>Team E</li>
-        <li>Team F</li>
+        <% for(let i = 0;i < participants.length;i++){ %>
+        <li>
+          <a
+            href="#"
+            id="participant<%= participants[i].p_id %>"
+            class="selectbluff"
+            >p_id <%= participants[i].p_id %> : <%= participants[i].username
+            %></a
+          >
+        </li>
+        <% } %>
       </ul>
+      <button id="resetbluff" class="btn btn-danger" style="margin-left:10%">
+        set no one as bluffmaster!
+      </button>
     </div>
-    <div id="div3">
+    <div id="div3" class="sections">
       voting details
     </div>
-    <div id="div4">
+    <div id="div4" class="sections">
       <p id="question"></p>
     </div>
-    <div id="div5">
+    <div id="div5" class="sections">
       correct options: <br />
       <ol id="correctoptions"></ol>
     </div>
-    <div id="div6"></div>
+    <div id="div6" class="sections"></div>
+    <div class="toastlikemessage" style="display: none"></div>
     <script>
+      // question selection logic
       for (let i = 0; i < 5; i++) {
         $("#change-to-question" + (i + 1)).on("click", () => {
-          console.log("clicked");
+          console.log("clicked question change");
           $.post("/feed/setcurrentquestion/" + (i + 1), function(data, status) {
-            alert("Data: " + data + "\nStatus: " + status);
+            console.log("Data: " + data + "\nStatus: " + status);
           });
+          toastMessage("Selected Question " + (i + 1));
           $.ajax({
             url: `/fetch/question/${i + 1}`,
             success: function(result) {
+              let data = result.question[0].question;
               console.log(result);
               if (result && result.question.length > 0) {
-                $("#question").text(result.question[0].question.statement);
+                $("#question").text(data.statement);
                 $("#correctoptions").empty();
-                for (
-                  let i = 0;
-                  i < result.question[0].question.correctoptions.length;
-                  i++
-                ) {
+                for (let i = 0; i < data.correctoptions.length; i++) {
                   let x = $("<li></li>");
-                  $(x).text(
-                    result.question[0].question.correctoptions[i].option
-                  );
+                  $(x).text(data.correctoptions[i].option);
                   $("#correctoptions").append(x);
                 }
-                alert("Question changed!");
               } else {
                 $("#question").text("");
                 $("#correctoptions").empty();
-                alert("Question not found!");
+                toastMessage("Question not found!");
               }
             }
           });
         });
+      }
+      // bluffmaster reset logic(sets no one as bluffmaster)
+      $("#resetbluff").on("click", () => {
+        console.log("clicked reset bluffmaster");
+        $.post("/feed/resetbluffmaster", function(data, status) {
+          console.log("Data: " + data + "\nStatus: " + status);
+        });
+        toastMessage("No one is bluffmaster now");
+      });
+      // bluffmaster selection logic
+      for (let i = 0; i < 3; i++) {
+        $("#participant" + (i + 1)).on("click", () => {
+          console.log("clicked bluff change");
+          $.post("/feed/selectbluffmaster/" + (i + 1), function(data, status) {
+            console.log("Data: " + data + "\nStatus: " + status);
+          });
+          toastMessage("p_id " + (i + 1) + " is now the bluffmaster!");
+        });
+      }
+      // show toast Notification
+      function toastMessage(message) {
+        $(".toastlikemessage")
+          .text(message)
+          .stop()
+          .fadeIn(400)
+          .delay(3000)
+          .fadeOut(400); //fade out after 3 seconds
       }
     </script>
   </body>

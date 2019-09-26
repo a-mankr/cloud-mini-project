@@ -8,6 +8,9 @@ mongoose.connect("mongodb://localhost:27017/bluffmaster", {
 const db = mongoose.connection;
 
 var ParticipantsSchema = mongoose.Schema({
+  p_id: {
+    type: Number
+  },
   username: {
     type: String
   },

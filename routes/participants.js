@@ -39,11 +39,12 @@ router.post(
   (req, res) => {
     // // Form validation
     // const errors = validationResult(req);
-    const { name, username, password, profileimage } = req.body;
+    const { name, username, password, profileimage, p_id } = req.body;
     // if (!errors.isEmpty()) {
     //   return res.status(422).json({ errors: errors.array() });
     // } else {
     let newParticipant = new Participants({
+      p_id: p_id,
       name: name,
       username: username,
       password: password,
