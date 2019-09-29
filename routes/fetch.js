@@ -1,7 +1,7 @@
 let express = require("express");
 let router = express.Router();
 
-router.get("/questions", (req, res, next) => {
+router.get("/questions", loggedIn, (req, res, next) => {
   Questions.find({}, (err, questions) => {
     if (err) {
       res.json({ success: false });
@@ -11,7 +11,7 @@ router.get("/questions", (req, res, next) => {
   });
 });
 
-router.get("/question/:qno", (req, res, next) => {
+router.get("/question/:qno", loggedIn, (req, res, next) => {
   Questions.find({ qno: req.params.qno }, (err, question) => {
     if (err) {
       res.json({ success: false });
@@ -20,5 +20,33 @@ router.get("/question/:qno", (req, res, next) => {
     }
   });
 });
+
+router.get("/votes", loggedIn, (req, res, next) => {
+  Votes.find({}, (err, votes) => {
+    if (err) {
+      res.json({ success: false });
+    } else {
+      res.json({ votes: votes, success: true });
+    }
+  });
+});
+
+router.get("/participants", loggedIn, (req, res, next) => {
+  Participants.find({}, (err, participants) => {
+    if (err) {
+      res.json({ success: false });
+    } else {
+      res.json({ participants: participants, success: true });
+    }
+  });
+});
+
+function loggedIn(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.redirect("/participants/login");
+  }
+}
 
 module.exports = router;

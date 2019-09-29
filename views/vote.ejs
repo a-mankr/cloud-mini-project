@@ -61,9 +61,14 @@
     <div class="container-fluid">
       <h1>Whom do you want to vote out?</h1>
       <ul>
-        <% for(let i = 0;i < opponents.length;i++){ %>
+        <% for(let i = 0;i < opponents.length;i++){ 
+          if(opponents[i].name === "admin") {
+            
+          }else {
+          %>
+          
           <li id="opponent<%= opponents[i].p_id %>"><a href=""><%= opponents[i].name %></a></li>
-        <% } %>
+        <% } } %>
       </ul>
     </div>
 

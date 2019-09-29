@@ -52,6 +52,9 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+            <li>
+              <%= participant %>
+            </li>
             <% if(isBluff) { %>
             <li>
               👺 You're the Bluffmaster 👺
@@ -76,7 +79,13 @@
     </header>
 
     <div class="container" align="center">
-      <% if(question) { %>
+      <% if(isRemoved){ %>
+      <div class="card" style="width: 80%;margin-bottom: 3%;">
+        <h2>
+          Sorry, you are no longer in the game!
+        </h2>
+      </div>
+      <% } else if(question) { %>
       <div class="card" style="margin-top: 2%">
         <div class="card-body">
           <p>
@@ -100,7 +109,11 @@
         </ul>
       </div>
       <% } else { %>
-      <h1>question not found</h1>
+      <div class="card" style="width: 80%;margin-bottom: 3%;">
+        <h1>
+          Wait...
+        </h1>
+      </div>
       <% } %>
     </div>
     <script>

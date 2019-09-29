@@ -50,7 +50,9 @@ router.post("/question", (req, res, next) => {
 router.post("/setcurrentquestion/:qno", (req, res, next) => {
   Variables.update(
     { identifier: "correct" },
-    { $set: { currentQuestion: req.params.qno } },
+    {
+      $set: { currentQuestion: req.params.qno === "none" ? 0 : req.params.qno }
+    },
     (err, doc) => {
       if (err) throw err;
       console.log(doc);
@@ -80,6 +82,29 @@ router.post("/resetbluffmaster", (req, res, next) => {
   Participants.update(
     {},
     { $set: { isBluff: false } },
+    { multi: true },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+
+router.post("/removeteam/:team", (req, res, next) => {
+  Participants.update(
+    { username: req.params.team },
+    { $set: { isRemoved: true } },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+
+router.post("/undoremove", (req, res, next) => {
+  Participants.update(
+    {},
+    { $set: { isRemoved: false } },
     { multi: true },
     (err, doc) => {
       if (err) throw err;

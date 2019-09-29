@@ -24,6 +24,10 @@ var ParticipantsSchema = mongoose.Schema({
     type: Boolean,
     default: false
   },
+  isRemoved: {
+    type: Boolean,
+    default: false
+  },
   profileimage: {
     type: String
   }
