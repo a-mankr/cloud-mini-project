@@ -17,43 +17,21 @@
         width: 33.33%;
         height: 50%;
         float: left;
+        padding-left: 1%;
       }
-      #div1 {
-        background: #eee;
-      }
-      #div2 {
-        background: #ccc;
-      }
-      #div3 {
-        background: #eee;
-      }
-      #div4 {
-        background: #ccc;
-      }
+      #div1,
+      #div3,
       #div5 {
         background: #eee;
       }
+      #div2,
+      #div4,
       #div6 {
         background: #ccc;
       }
-      .toastlikemessage {
-        width: 200px;
-        height: 20px;
-        height: auto;
-        position: absolute;
-        left: 50%;
-        margin-left: -100px;
-        bottom: 10px;
-        background-color: #383838;
-        color: #f0f0f0;
-        font-family: Calibri;
-        font-size: 20px;
-        padding: 10px;
-        text-align: center;
-        border-radius: 2px;
-        -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-        -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-        box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+
+      ul {
+        columns: 2;
       }
     </style>
   </head>
@@ -84,6 +62,11 @@
               >
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="/admin/scoreupdate/form"
+                >Score update</a
+              >
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="/participants/logout">Logout</a>
             </li>
           </ul>
@@ -92,36 +75,45 @@
     </header>
 
     <div id="div1" class="sections">
-      Select question to display
+      <h5>Select question to display</h5>
       <ul>
-        <li><a href="#" id="change-to-question-none">None</a></li>
-        <li><a href="#" id="change-to-question1">Q.1</a></li>
-        <li><a href="#" id="change-to-question2">Q.2</a></li>
-        <li><a href="#" id="change-to-question3">Q.3</a></li>
-        <li><a href="#" id="change-to-question4">Q.4</a></li>
-        <li><a href="#" id="change-to-question5">Q.5</a></li>
+        <li>
+          <a href="#" id="change-to-question-none" style="color: green">None</a>
+        </li>
+        <% for(let i = 0;i < questionsNotDone.length ;i++) { %>
+        <li>
+          <a href="#" id="change-to-question<%- questionsNotDone[i] %>"
+            >Question<%- questionsNotDone[i] %></a
+          >
+        </li>
+        <% } %>
+        <li>
+          <a href="#" id="rest-isquestiondone-flag" style="color: red">reset</a>
+        </li>
       </ul>
     </div>
     <div id="div2" class="sections">
-      Choose bluffmaster
-      <ul>
-        <% for(let i = 0;i < participants.length;i++){
-        if(participants[i].isRemoved){ continue; } else { %>
-        <li>
-          <a
-            href="#"
-            id="participant<%= participants[i].p_id %>"
-            class="selectbluff"
-            ><%= participants[i].username %></a
-          >
-        </li>
-        <% } }%>
-      </ul>
-      <button id="resetbluff" class="btn btn-danger" style="margin-left:10%">
-        set no one as bluffmaster!
+      <h5>Choose bluffmaster</h5>
+
+      <% for(let i = 0;i < participants.length;i++){
+      if(participants[i].isRemoved || participants[i].username === "admin" ||
+      participants[i].username === "audience"){ continue; } else { %>
+      <button
+        id="participant<%= participants[i].p_id %>"
+        class="selectbluff m-2 btn <%= (participants[i].p_id)%2 ? 'btn-light' : 'btn-dark' %>"
+      >
+        <%= participants[i].username %>
       </button>
+      <% } }%>
+
+      <button id="resetbluff" class="btn btn-danger" style="margin-left:10%">
+        None(reset)
+      </button>
+      <h6>Bluffmaster:</h6>
+      <h6 id="bluffteam" class="mt-2">None</h6>
     </div>
     <div id="div3" class="sections">
+      <button id="reset-votes" class="btn btn-warning">reset votes!</button>
       <button id="fetch-voting-details" class="btn btn-success">
         fetch voting details
       </button>
@@ -141,134 +133,6 @@
       <div id="teams-left"></div>
     </div>
     <div class="toastlikemessage" style="display: none"></div>
-    <script>
-      // question selection logic
-      for (let i = 0; i < 5; i++) {
-        $("#change-to-question" + (i + 1)).on("click", () => {
-          console.log("clicked question change");
-          $.post("/feed/setcurrentquestion/" + (i + 1), function(data, status) {
-            console.log("Data: " + data + "\nStatus: " + status);
-          });
-          toastMessage("Selected Question " + (i + 1));
-          $.ajax({
-            url: `/fetch/question/${i + 1}`,
-            success: function(result) {
-              let data = result.question[0].question;
-              console.log(result);
-              if (result && result.question.length > 0) {
-                $("#question").text(data.statement);
-                $("#correctoptions").empty();
-                for (let i = 0; i < data.correctoptions.length; i++) {
-                  let x = $("<li></li>");
-                  $(x).text(
-                    data.correctoptions[i].option + " - " + (100 - 10 * i)
-                  );
-                  $("#correctoptions").append(x);
-                }
-              } else {
-                $("#question").text("");
-                $("#correctoptions").empty();
-                toastMessage("Question not found!");
-              }
-            }
-          });
-        });
-      }
-      $("#change-to-question-none").on("click", () => {
-        $.post("/feed/setcurrentquestion/none", function(data, status) {
-          console.log("Data: " + data + "\nStatus: " + status);
-        });
-      });
-      // bluffmaster reset logic(sets no one as bluffmaster)
-      $("#resetbluff").on("click", () => {
-        console.log("clicked reset bluffmaster");
-        $.post("/feed/resetbluffmaster", function(data, status) {
-          console.log("Data: " + data + "\nStatus: " + status);
-        });
-        toastMessage("No one is bluffmaster now");
-      });
-      // bluffmaster selection logic
-      for (let i = 0; i < 3; i++) {
-        $("#participant" + (i + 1)).on("click", () => {
-          console.log("clicked bluff change");
-          $.post("/feed/selectbluffmaster/" + (i + 1), function(data, status) {
-            console.log("Data: " + data + "\nStatus: " + status);
-          });
-          toastMessage("team" + (i + 1) + " is now the bluffmaster!");
-        });
-      }
-
-      // show toast Notification
-      function toastMessage(message) {
-        $(".toastlikemessage")
-          .text(message)
-          .stop()
-          .fadeIn(400)
-          .delay(3000)
-          .fadeOut(400); //fade out after 3 seconds
-      }
-
-      // fetch voting details
-      $("#fetch-voting-details").on("click", () => {
-        $.ajax({
-          url: "/fetch/votes",
-          success: function(result) {
-            if (result.votes.length > 0) {
-              $("#voting-details").empty();
-              for (let i = 0; i < result.votes.length; i++) {
-                let x = $("<li></li>");
-                let message =
-                  result.votes[i].team +
-                  " voted for team" +
-                  result.votes[i].votedFor;
-                $(x).text(message);
-                $("#voting-details").append(x);
-              }
-            } else {
-              $("#voting-details").empty();
-              let errorMsg = $("<h3></h3>");
-              $(errorMsg).text("No votes recorded!");
-              $("#voting-details").append(errorMsg);
-            }
-          }
-        });
-      });
-
-      // remove teams
-      $("#div6").on("click", () => {
-        console.log("clicked");
-        $.ajax({
-          url: "/fetch/participants",
-          success: function(result) {
-            if (result.participants.length > 0) {
-              $("#teams-left").empty();
-              for (let i = 0; i < result.participants.length; i++) {
-                if (result.participants[i].isRemoved) continue;
-                let x = $("<button></button>");
-                $(x)
-                  .attr("class", "btn btn-danger mb-2 ml-2")
-                  .text(result.participants[i].name)
-                  .attr(
-                    "onclick",
-                    `removeTeam(${result.participants[i].p_id})`
-                  );
-                $("#teams-left").append(x);
-              }
-            }
-          }
-        });
-      });
-      function removeTeam(team) {
-        $.post("/feed/removeteam/team" + team, function(data, status) {
-          console.log("Data: " + data + "\nStatus: " + status);
-        });
-      }
-      // undo remove participants
-      $("#undo-remove").on("click", () => {
-        $.post("/feed/undoremove", function(data, status) {
-          console.log("Data: " + data + "\nStatus: " + status);
-        });
-      });
-    </script>
+    <script src="/script/admin.js"></script>
   </body>
 </html>

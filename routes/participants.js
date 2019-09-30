@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
   res.send("respond with a resource");
 });
 
-router.get("/register", (req, res) => {
+router.get("/register", isAdmin, (req, res) => {
   res.render("register", { title: "Register" });
 });
 
@@ -113,5 +113,13 @@ router.get("/logout", (req, res) => {
   req.flash("success", "You are now logged out!");
   res.redirect("/participants/login");
 });
+
+function isAdmin(req, res, next) {
+  if (req.user && req.user.username === "admin") {
+    next();
+  } else {
+    res.redirect("/");
+  }
+}
 
 module.exports = router;

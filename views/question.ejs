@@ -65,7 +65,11 @@
             </li>
             <% if(question && (question[0].qno % 2 === 0)) { %>
             <li class="nav-item">
-              <a class="nav-link" href="/vote" style="color: goldenrod"
+              <a
+                class="nav-link"
+                href="#vote-section"
+                id="unhide-vote"
+                style="color: goldenrod"
                 >Vote!</a
               >
             </li>
@@ -116,7 +120,35 @@
       </div>
       <% } %>
     </div>
+    <div class="card" style="margin-top: 2%" id="vote-section">
+      <div class="card-body">
+        <h1>Whom do you want to vote out?</h1>
+        <ul>
+          <% for(let i = 0;i < participants.length;i++){
+          if(participants[i].isRemoved || participants[i].username === "admin"
+          || participants[i].username === "audience") continue; %>
+          <li id="opponent<%= participants[i].p_id %>">
+            <a href=""><%= participants[i].username %></a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+
+    <div class="toastlikemessage" style="display: none"></div>
     <script>
+      $("#vote-section").hide();
+      $("#unhide-vote").on("click", () => {
+        $("#vote-section").show();
+      });
+      for (let i = 1; i <= 6; i++) {
+        $("#opponent" + i).on("click", () => {
+          $.post("/feed/vote/opponent/" + i, function(data, status) {
+            console.log("Data: " + data + "\nStatus: " + status);
+          });
+          alert("You voted for team" + i);
+        });
+      }
       for (let i = 1; i <= 10; i++) {
         $("#option" + i).on({
           mouseenter: function() {

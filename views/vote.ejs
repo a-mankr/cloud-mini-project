@@ -11,25 +11,6 @@
         /* background-color: green; */
         background-size: cover;
       }
-      .toastlikemessage {
-        width: 200px;
-        height: 20px;
-        height: auto;
-        position: absolute;
-        left: 50%;
-        margin-left: -100px;
-        bottom: 10px;
-        background-color: #383838;
-        color: #f0f0f0;
-        font-family: Calibri;
-        font-size: 20px;
-        padding: 10px;
-        text-align: center;
-        border-radius: 2px;
-        -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-        -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-        box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-      }
     </style>
   </head>
   <body>
@@ -46,7 +27,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-    
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
@@ -54,42 +35,34 @@
               >Back <span class="sr-only">(current)</span></a
             >
           </li>
+        </ul>
       </div>
     </nav>
-    
-
     <div class="container-fluid">
       <h1>Whom do you want to vote out?</h1>
       <ul>
-        <% for(let i = 0;i < opponents.length;i++){ 
-          if(opponents[i].name === "admin") {
-            
-          }else {
-          %>
-          
-          <li id="opponent<%= opponents[i].p_id %>"><a href=""><%= opponents[i].name %></a></li>
+        <% for(let i = 0;i < opponents.length;i++){ if(opponents[i].name ===
+        "admin") { }else { %>
+
+        <li id="opponent<%= opponents[i].p_id %>">
+          <a href=""><%= opponents[i].name %></a>
+        </li>
         <% } } %>
       </ul>
     </div>
 
     <div class="toastlikemessage" style="display: none"></div>
     <script>
-      for(let i = 1;i <= 3;i++){
+      for (let i = 1; i <= 6; i++) {
         $("#opponent" + i).on("click", () => {
-          $.post("/vote/opponent/" + i, (data, status) => {
+          $.post("/feed/vote/opponent/" + i, function(data, status) {
             console.log("Data: " + data + "\nStatus: " + status);
-          })
-          toastMessage("Your vote was recorded successfully!");
-        })
-      }
-
-      function toastMessage(message) {
-        $(".toastlikemessage")
-          .text(message)
-          .stop()
-          .fadeIn(400)
-          .delay(3000)
-          .fadeOut(400); //fade out after 3 seconds
+          });
+          setTimeout(function() {
+            toastMessage("You voted for team" + i);
+          }, 2000);
+          console.log("haha");
+        });
       }
     </script>
   </body>

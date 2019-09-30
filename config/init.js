@@ -12,5 +12,6 @@ module.exports.initDb = function() {
     Questions = require("../models/Questions");
     Variables = require("../models/Variables");
     Votes = require("../models/Votes");
+    Scores = require("../models/Scores");
   });
 };

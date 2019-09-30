@@ -60,6 +60,31 @@ router.post("/setcurrentquestion/:qno", (req, res, next) => {
   );
 });
 
+// sets the isDone flag for a question to true
+router.post("/markquesasdone/:qno", (req, res, next) => {
+  Questions.update(
+    { qno: req.params.qno },
+    { $set: { isDone: true } },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+
+// sets isDone flag for all questions to false (i.e. to its default value)
+router.post("/resetquesdone", (req, res, next) => {
+  Questions.update(
+    {},
+    { $set: { isDone: false } },
+    { multi: true },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+});
+
 router.post("/selectbluffmaster/:p_id", (req, res, next) => {
   Variables.update(
     { identifier: "correct" },
@@ -111,6 +136,31 @@ router.post("/undoremove", (req, res, next) => {
       console.log(doc);
     }
   );
+});
+
+router.post("/resetvotes", (req, res, next) => {
+  Votes.update({}, { $set: { votedFor: 0 } }, { multi: true }, (err, doc) => {
+    if (err) throw err;
+    console.log(doc);
+  });
+});
+
+router.post("/score", (req, res, next) => {
+  console.log(req.body);
+});
+
+router.post("/vote/opponent/:p_id", (req, res) => {
+  // console.log("You voted for opponent " + req.params.p_id);
+  Votes.update(
+    { team: req.user.username },
+    { $set: { votedFor: req.params.p_id } },
+    { upsert: true },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+  console.log(req.user.username + " voted for opponent " + req.params.p_id);
 });
 
 module.exports = router;
