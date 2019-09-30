@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css?family=Coiny|Permanent+Marker");
+body {
+  background: url("/image/awesomebg.jpeg");
+  background-size: cover;
+  background-position: center;
+}
+#pricing-table {
+  text-align: center;
+  width: 100%; /* total computed width = 222 x 3 + 226 */
+}
+
+#pricing-table .plan {
+  font-family: "Coiny";
+  text-shadow: 0 1px rgba(255, 255, 255, 0.8);
+  background: #fff;
+  border: 3px solid #ddf;
+  color: #333;
+  padding: 5%;
+  width: 100%; /* plan width = 180 + 20 + 20 + 1 + 1 = 222px */
+  float: left;
+  margin-bottom: 10%;
+  position: relative;
+  opacity: 0.8;
+}
+#pricing-table h3 {
+  font-size: 200%;
+  font-weight: normal;
+  padding: auto;
+  margin-bottom: 100px;
+  background-color: #eee;
+  background-image: -moz-linear-gradient(#fff, #eee);
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#fff),
+    to(#eee)
+  );
+
+  background-image: -webkit-linear-gradient(#fff, #eee);
+  background-image: -o-linear-gradient(#fff, #eee);
+  background-image: -ms-linear-gradient(#fff, #eee);
+  background-image: linear-gradient(#fff, #eee);
+}
+
+#pricing-table h3 span {
+  display: block;
+  font: 80px/100px "Permanent Marker";
+  color: rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
+  border: 5px solid #fff;
+  height: 90%;
+  width: 100%;
+  margin: 2% auto -45%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 30%;
+  -moz-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+  -webkit-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+  box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+}
+
+/* --------------- */
+
+#pricing-table ul {
+  margin: 20px 0 0 0;
+  padding: 0;
+  list-style: none;
+  color: red; /*sets color of roundwise scores*/
+}
+
+#pricing-table li {
+  border-top: 2px solid #ddd;
+  padding: 1.5% 0;
+}
+
+/* --------------- */
+
+.clear:before,
+.clear:after {
+  content: "";
+  display: table;
+}
+
+.clear:after {
+  clear: both;
+}
+
+.clear {
+  zoom: 1;
+}
+#home {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
