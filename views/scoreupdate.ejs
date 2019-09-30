@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+    <title><%- title %></title>
+    <style>
+      body {
+        background-color: lightblue;
+      }
+      input[type="text"] {
+        padding: 20px 10px;
+        text-align: center;
+        font-size: 75px;
+        max-width: 100%;
+        max-height: auto;
+        background-color: bisque;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <!--add controls in future if required-->
+            <li class="nav-item">
+              <a class="nav-link" href="/">Back to admin</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/participants/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div class="container-fluid">
+      <form action="/feed/score" method="post">
+        <div class="row">
+          <div class="col-auto my-1 form-group col-md-2">
+            <label class="mr-sm-2" for="inlineFormCustomSelect">Question</label>
+            <select
+              class="custom-select mr-sm-2"
+              id="inlineFormCustomSelect"
+              name="question"
+            >
+              <option selected>Choose...</option>
+              <% for(let i = 0;i < questionsNotDone.length;i++) { %>
+              <option value="<%- questionsNotDone[i] %>"
+                >Question <%- questionsNotDone[i] %></option
+              >
+              <% } %>
+            </select>
+          </div>
+        </div>
+        <br /><br />
+        <div class="row">
+          <% for(let i = 0;i < participants.length;i++) {
+          if(participants[i].username === "admin" || participants[i].username
+          === "audience") continue; %>
+          <div class="col-sm">
+            <label for="qno"> Team <%= participants[i].p_id %> : </label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="<%= participants[i].p_id %>"
+              name="<%= participants[i].username %>"
+            />
+          </div>
+          <% } %>
+        </div>
+        <br /><br />
+        <div class="form-group" align="center">
+          <input type="submit" class="btn btn-primary m-2" />
+          <input type="reset" class="btn btn-warning m-2" />
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

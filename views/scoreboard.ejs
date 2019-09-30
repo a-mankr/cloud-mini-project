@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+    <link rel="stylesheet" href="/css/score.css" />
+
+    <title>Scorecard</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/"
+                >Back <span class="sr-only">(current)</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div>
+      <div id="pricing-table" class="clear">
+        <br />
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team A</b>
+                  <span><%= totals[0] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <!-- <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <% if (scores[i].teama) { %>
+                    <h2><%= scores[i].teama %></h2>
+                    <% } else{ %>
+                    <h2>-</h2>
+                    <% } %>
+                  </li> -->
+                  <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <h2><%= scores[i].teama %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team B</b>
+                  <span><%= totals[1] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <!-- <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <% if (scores[i].teamb) { %>
+                    <h2><%= scores[i].teamb %></h2>
+                    <% } else{ %>
+                    <h2>-</h2>
+                    <% } %>
+                  </li> -->
+                  <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <h2><%= scores[i].teamb %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team C</b>
+                  <span><%= totals[2] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <!-- <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <% if (scores[i].teamc) { %>
+                    <h2><%= scores[i].teamc %></h2>
+                    <% } else{ %>
+                    <h2>-</h2>
+                    <% } %>
+                  </li> -->
+                  <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <h2><%= scores[i].teamc %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team D</b>
+                  <span><%= totals[3] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <!-- <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <% if (scores[i].teamd) { %>
+                    <h2><%= scores[i].teamd %></h2>
+                    <% } else{ %>
+                    <h2>-</h2>
+                    <% } %>
+                  </li> -->
+                  <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <h2><%= scores[i].teamd %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team E</b>
+                  <span><%= totals[4] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <!-- <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <% if (scores[i].teame) { %>
+                    <h2><%= scores[i].teame %></h2>
+                    <% } else{ %>
+                    <h2>-</h2>
+                    <% } %>
+                  </li> -->
+                  <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <h2><%= scores[i].teame %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team F</b>
+                  <span><%= totals[5] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <!-- <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <% if (scores[i].teamf) { %>
+                    <h2><%= scores[i].teamf %></h2>
+                    <% } else{ %>
+                    <h2>-</h2>
+                    <% } %>
+                  </li> -->
+                  <li>
+                    <b>R o u n d <%= scores[i].round %></b>
+                    <h2><%= scores[i].teamf %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer><%- include ./footer %></footer>
+  </body>
+</html>
