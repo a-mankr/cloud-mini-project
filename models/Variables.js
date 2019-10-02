@@ -10,6 +10,10 @@ module.exports = mongoose.model(
     currentQuestion: {
       type: Number
     },
+    letVotingHappen: {
+      type: Boolean,
+      default: false
+    },
     identifier: {
       type: String,
       default: "correct"
