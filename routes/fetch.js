@@ -41,6 +41,16 @@ router.get("/participants", loggedIn, (req, res, next) => {
   });
 });
 
+router.get("/scores", loggedIn, (req, res, next) => {
+  Scores.find({}, (err, scores) => {
+    if (err) {
+      res.json({ success: false });
+    } else {
+      res.json({ scores: scores, success: true });
+    }
+  });
+});
+
 function loggedIn(req, res, next) {
   if (req.user) {
     next();

@@ -33,159 +33,84 @@
         </div>
       </nav>
     </header>
-    <div>
-      <div id="pricing-table" class="clear">
-        <br />
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm">
-              <div class="plan">
-                <h3>
-                  <b>Team A</b>
-                  <span><%= totals[0] %></span>
-                </h3>
-                <ul>
-                  <% for(let i = 0;i < scores.length;i++) { %>
-                  <!-- <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <% if (scores[i].teama) { %>
-                    <h2><%= scores[i].teama %></h2>
-                    <% } else{ %>
-                    <h2>-</h2>
-                    <% } %>
-                  </li> -->
-                  <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <h2><%= scores[i].teama %></h2>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="plan">
-                <h3>
-                  <b>Team B</b>
-                  <span><%= totals[1] %></span>
-                </h3>
-                <ul>
-                  <% for(let i = 0;i < scores.length;i++) { %>
-                  <!-- <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <% if (scores[i].teamb) { %>
-                    <h2><%= scores[i].teamb %></h2>
-                    <% } else{ %>
-                    <h2>-</h2>
-                    <% } %>
-                  </li> -->
-                  <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <h2><%= scores[i].teamb %></h2>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="plan">
-                <h3>
-                  <b>Team C</b>
-                  <span><%= totals[2] %></span>
-                </h3>
-                <ul>
-                  <% for(let i = 0;i < scores.length;i++) { %>
-                  <!-- <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <% if (scores[i].teamc) { %>
-                    <h2><%= scores[i].teamc %></h2>
-                    <% } else{ %>
-                    <h2>-</h2>
-                    <% } %>
-                  </li> -->
-                  <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <h2><%= scores[i].teamc %></h2>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="plan">
-                <h3>
-                  <b>Team D</b>
-                  <span><%= totals[3] %></span>
-                </h3>
-                <ul>
-                  <% for(let i = 0;i < scores.length;i++) { %>
-                  <!-- <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <% if (scores[i].teamd) { %>
-                    <h2><%= scores[i].teamd %></h2>
-                    <% } else{ %>
-                    <h2>-</h2>
-                    <% } %>
-                  </li> -->
-                  <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <h2><%= scores[i].teamd %></h2>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="plan">
-                <h3>
-                  <b>Team E</b>
-                  <span><%= totals[4] %></span>
-                </h3>
-                <ul>
-                  <% for(let i = 0;i < scores.length;i++) { %>
-                  <!-- <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <% if (scores[i].teame) { %>
-                    <h2><%= scores[i].teame %></h2>
-                    <% } else{ %>
-                    <h2>-</h2>
-                    <% } %>
-                  </li> -->
-                  <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <h2><%= scores[i].teame %></h2>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-            </div>
-            <div class="col-sm">
-              <div class="plan">
-                <h3>
-                  <b>Team F</b>
-                  <span><%= totals[5] %></span>
-                </h3>
-                <ul>
-                  <% for(let i = 0;i < scores.length;i++) { %>
-                  <!-- <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <% if (scores[i].teamf) { %>
-                    <h2><%= scores[i].teamf %></h2>
-                    <% } else{ %>
-                    <h2>-</h2>
-                    <% } %>
-                  </li> -->
-                  <li>
-                    <b>R o u n d <%= scores[i].round %></b>
-                    <h2><%= scores[i].teamf %></h2>
-                  </li>
-                  <% } %>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="container-fluid jumbotron">
+      <canvas id="bar-chart" width="800" height="450"></canvas>
     </div>
-    <footer><%- include ./footer %></footer>
+
+    <script>
+      // allScores is returned as string e.g. string = 10,20,40,30,50,70,80,60,90
+      var string = "<%- allScores %>";
+      // converting string into an array of numbers e.g. totals = [10, 20, 40, 30, 50, 70, 80, 60, 90]
+      var totals;
+      if (string.length === 0) {
+        totals = new Array();
+      } else {
+        totals = string
+          .replace(/, +/g, ",")
+          .split(",")
+          .map(Number);
+      }
+      /* converting 1-D array to 2-D array
+      e.g. stackData = [[10, 20, 40],
+                        [30, 50, 70],
+                        [80, 60, 90]]
+      */
+      var stackData = [];
+      while (totals.length) stackData.push(totals.splice(0, 6));
+      var stackColors = [
+        "#b3d717",
+        "#e68d14",
+        "#d3707f",
+        "#f7c71b",
+        "#304678",
+        "#d500e4",
+        "#cebe7e",
+        "#f60457",
+        "#17ba6d",
+        "#6c7fdf",
+        "#c05036",
+        "#f03e7b"
+      ];
+      let dataset = [];
+      for (let i = 0; i < stackData.length; i++) {
+        dataset.push({
+          label: "Question" + (i + 1),
+          backgroundColor: stackColors[i],
+          data: stackData[i]
+        });
+      }
+      new Chart(document.getElementById("bar-chart"), {
+        type: "bar",
+        data: {
+          labels: ["team1", "team2", "team3", "team4", "team5", "team6"],
+          datasets: dataset
+        },
+        options: {
+          legend: { display: false },
+          title: {
+            display: true,
+            text: "Total scores of all the teams"
+          },
+          scales: {
+            xAxes: [
+              {
+                stacked: true // this should be set to make the bars stacked
+              }
+            ],
+            yAxes: [
+              {
+                stacked: true // this should be set to make the bars stacked
+              }
+              //   {
+              //     ticks: {
+              //       stepSize: 10,
+              //       startsWithZero: true
+              //     }
+              //   }
+            ]
+          }
+        }
+      });
+    </script>
   </body>
 </html>
