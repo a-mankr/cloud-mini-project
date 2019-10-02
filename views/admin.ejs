@@ -78,17 +78,27 @@
       <h5>Select question to display</h5>
       <ul>
         <li>
-          <a href="#" id="change-to-question-none" style="color: green">None</a>
+          <h5>
+            <a href="#" id="change-to-question-none" style="color: green"
+              >None</a
+            >
+          </h5>
         </li>
         <% for(let i = 0;i < questionsNotDone.length ;i++) { %>
         <li>
-          <a href="#" id="change-to-question<%- questionsNotDone[i] %>"
-            >Question<%- questionsNotDone[i] %></a
-          >
+          <h5>
+            <a href="#" id="change-to-question<%- questionsNotDone[i] %>"
+              >Question<%- questionsNotDone[i] %></a
+            >
+          </h5>
         </li>
         <% } %>
         <li>
-          <a href="#" id="rest-isquestiondone-flag" style="color: red">reset</a>
+          <h5>
+            <a href="#" id="rest-isquestiondone-flag" style="color: red"
+              >reset</a
+            >
+          </h5>
         </li>
       </ul>
     </div>
@@ -113,14 +123,21 @@
       <h6 id="bluffteam" class="mt-2">None</h6>
     </div>
     <div id="div3" class="sections">
-      <button id="reset-votes" class="btn btn-warning">reset votes!</button>
-      <button id="fetch-voting-details" class="btn btn-success">
+      <button id="enable-voting" class="btn btn-success m-2">
+        enable voting
+      </button>
+      <button id="disable-voting" class="btn btn-danger m-2">
+        disable voting
+      </button>
+      <button id="reset-votes" class="btn btn-warning m-2">reset votes!</button>
+
+      <button id="fetch-voting-details" class="btn btn-primary m-2">
         fetch voting details
       </button>
       <ul id="voting-details"></ul>
     </div>
     <div id="div4" class="sections">
-      <p id="question"></p>
+      <h4 id="question"></h4>
     </div>
     <div id="div5" class="sections">
       correct options: <br />

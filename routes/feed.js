@@ -146,7 +146,26 @@ router.post("/resetvotes", (req, res, next) => {
 });
 
 router.post("/score", (req, res, next) => {
-  console.log(req.body);
+  let { question, team1, team2, team3, team4, team5, team6 } = req.body;
+  Scores.update(
+    { qno: question },
+    {
+      $set: {
+        team1: team1,
+        team2: team2,
+        team3: team3,
+        team4: team4,
+        team5: team5,
+        team6: team6
+      }
+    },
+    { upsert: true },
+    (err, doc) => {
+      if (err) throw err;
+      console.log(doc);
+    }
+  );
+  res.redirect("/scoreboard");
 });
 
 router.post("/vote/opponent/:p_id", (req, res) => {

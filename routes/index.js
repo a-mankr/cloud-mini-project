@@ -1,4 +1,5 @@
 var express = require("express");
+var fetch = require("node-fetch");
 var router = express.Router();
 
 router.get("/", loggedIn, (req, res) => {
@@ -10,6 +11,7 @@ router.get("/", loggedIn, (req, res) => {
         question: null,
         title: "Bluffmaster",
         isBluff: req.user.isBluff,
+        letVotingHappen: values[0].letVotingHappen,
         isRemoved: req.user.isRemoved,
         participants: []
       });
@@ -22,12 +24,12 @@ router.get("/", loggedIn, (req, res) => {
             else {
               if (!req.user.isBluff)
                 shuffle(question[0].question.correctoptions);
-              console.log(question);
               res.render("question", {
                 participant: req.user.username,
                 question: question,
                 title: "Bluffmaster",
                 isBluff: req.user.isBluff,
+                letVotingHappen: values[0].letVotingHappen,
                 isRemoved: req.user.isRemoved,
                 participants: participants
               });
@@ -40,7 +42,28 @@ router.get("/", loggedIn, (req, res) => {
 });
 
 router.get("/audience", isAudience, (req, res) => {
-  res.send("well, for audience!");
+  Variables.find({ identifier: "correct" }, (err, values) => {
+    if (err) throw err;
+    else if (values[0].currentQuestion === 0) {
+      res.render("audience", {
+        participant: req.user.username,
+        question: null,
+        title: "Bluffmaster"
+      });
+    } else {
+      Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
+        if (err) throw err;
+        else {
+          console.log(question);
+          res.render("audience", {
+            participant: req.user.username,
+            question: question,
+            title: "Audience view"
+          });
+        }
+      });
+    }
+  });
 });
 
 router.get("/vote", loggedIn, (req, res) => {
@@ -49,7 +72,6 @@ router.get("/vote", loggedIn, (req, res) => {
     (err, opponents) => {
       if (err) throw err;
       else {
-        // console.log(opponents);
         res.render("vote", { title: "Vote!", opponents: opponents });
       }
     }
@@ -57,8 +79,37 @@ router.get("/vote", loggedIn, (req, res) => {
 });
 
 router.get("/scoreboard", (req, res) => {
-  let totals = [0, 0, 0, 0, 0, 0];
-  res.render("scoreboard", { title: "Scoreboard", scores: [], totals: totals });
+  Scores.find({}, (err, scores) => {
+    if (err) throw err;
+    else {
+      let totals = [0, 0, 0, 0, 0, 0];
+      let allScores = new Array(scores.length);
+      for (let i = 0; i < allScores.length; i++) {
+        allScores[i] = [
+          scores[i].team1,
+          scores[i].team2,
+          scores[i].team3,
+          scores[i].team4,
+          scores[i].team5,
+          scores[i].team6
+        ];
+      }
+      for (let i = 0; i < scores.length; i++) {
+        totals[0] += scores[i].team1;
+        totals[1] += scores[i].team2;
+        totals[2] += scores[i].team3;
+        totals[3] += scores[i].team4;
+        totals[4] += scores[i].team5;
+        totals[5] += scores[i].team6;
+      }
+      res.render("scoreboard", {
+        title: "Scoreboard",
+        allScores: allScores,
+        scores: scores,
+        totals: totals
+      });
+    }
+  });
 });
 
 router.get("/question/:qno", (req, res) => {

@@ -1,7 +1,6 @@
 // question selection logic
 for (let i = 0; i < 10; i++) {
   $("#change-to-question" + (i + 1)).on("click", () => {
-    console.log("clicked question change");
     $.post("/feed/setcurrentquestion/" + (i + 1), function(data, status) {
       console.log("Data: " + data + "\nStatus: " + status);
     });
@@ -13,7 +12,7 @@ for (let i = 0; i < 10; i++) {
       url: `/fetch/question/${i + 1}`,
       success: function(result) {
         let data = result.question[0].question;
-        console.log(result);
+
         if (result && result.question.length > 0) {
           $("#question").text(data.statement);
           $("#correctoptions").empty();
@@ -46,7 +45,6 @@ $("#rest-isquestiondone-flag").on("click", () => {
 });
 // bluffmaster reset logic(sets no one as bluffmaster)
 $("#resetbluff").on("click", () => {
-  console.log("clicked reset bluffmaster");
   $.post("/feed/resetbluffmaster", function(data, status) {
     console.log("Data: " + data + "\nStatus: " + status);
   });
@@ -56,7 +54,6 @@ $("#resetbluff").on("click", () => {
 // bluffmaster selection logic
 for (let i = 0; i < 6; i++) {
   $("#participant" + (i + 1)).on("click", () => {
-    console.log("clicked bluff change");
     $.post("/feed/selectbluffmaster/" + (i + 1), function(data, status) {
       console.log("Data: " + data + "\nStatus: " + status);
     });
@@ -107,7 +104,6 @@ $("#reset-votes").on("click", () => {
 
 // remove teams
 $("#div6").on("click", () => {
-  console.log("clicked");
   $.ajax({
     url: "/fetch/participants",
     success: function(result) {
@@ -143,4 +139,20 @@ $("#undo-remove").on("click", () => {
     console.log("Data: " + data + "\nStatus: " + status);
   });
   toastMessage("team removal revoked!");
+});
+
+// enable voting
+$("#enable-voting").on("click", () => {
+  $.post("/admin/voting/enable", function(data, status) {
+    console.log("Data: " + data + "\nStatus: " + status);
+  });
+  toastMessage("Participants can now vote!");
+});
+
+//disable voting
+$("#disable-voting").on("click", () => {
+  $.post("/admin/voting/disable", function(data, status) {
+    console.log("Data: " + data + "\nStatus: " + status);
+  });
+  toastMessage("Voting has been disabled!");
 });

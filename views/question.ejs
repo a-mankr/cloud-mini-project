@@ -9,28 +9,17 @@
     <style>
       body {
         background-size: cover;
-        background-repeat: no-repeat;
+        
+        /* background-color: #3c0b96; */
+        background-image: linear-gradient(to right, #3c0b96, #ae95db, #3c0b96);
       }
       img {
         max-width: 100%;
         max-height: auto;
       }
-      @media (min-width: 400px) {
-        body {
-          background-image: url("/image/bg-mob.jpg");
-        }
-      }
 
-      @media (min-width: 500px) {
-        body {
-          background: #888888;
-        }
-      }
-
-      @media (min-width: 600px) {
-        body {
-          background-image: url("/image/bg-pc.jpg");
-        }
+      ul {
+        columns: 2;
       }
     </style>
   </head>
@@ -52,18 +41,19 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li>
-              <%= participant %>
-            </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#" style="color: green"><%= participant %></a>
+                </li>
             <% if(isBluff) { %>
             <li>
-              👺 You're the Bluffmaster 👺
+                <a class="nav-link" href="#" style="color: red">👺 You're the Bluffmaster 👺</a>
+              
             </li>
             <% }%>
             <li class="nav-item">
               <a class="nav-link" href="/scoreboard">scoreboard</a>
             </li>
-            <% if(question && (question[0].qno % 2 === 0)) { %>
+            <% if(letVotingHappen) { %>
             <li class="nav-item">
               <a
                 class="nav-link"
@@ -84,56 +74,81 @@
 
     <div class="container" align="center">
       <% if(isRemoved){ %>
-      <div class="card" style="width: 80%;margin-bottom: 3%;">
-        <h2>
-          Sorry, you are no longer in the game!
-        </h2>
+        <div
+        class="card"
+        style="margin-top: 20%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
+      >
+        <p><h3>Sorry, you are no longer in the game!</h3></p>
       </div>
+      <div style="height:400px; width:100%; clear:both;"></div>
       <% } else if(question) { %>
-      <div class="card" style="margin-top: 2%">
+      <div
+        class="card"
+        style="margin-top: 2%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
+      >
         <div class="card-body">
           <p>
-            Question <%= question[0].qno %> . <%= question[0].question.statement
-            %>
+            <h4>Question <%= question[0].qno %> . <%= question[0].question.statement
+              %></h4>
           </p>
         </div>
       </div>
-      <div class="card" style="width: 80%;margin-bottom: 3%;">
-        <ul class="list-group list-group-flush">
+      
+        <ul class="list-group list-group-flush" style="width: 90%">
           <% for(let i = 0;i < question[0].question.correctoptions.length;i++) {
           %>
           <li
             class="list-group-item"
             id="option<%= question[0].question.correctoptions[i].optionNo %>"
-            style="margin:1px;background-color: gray"
+            style="margin:1px;background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);border-radius: 100px;border-color:antiquewhite;border-width: medium;color:aliceblue"
           >
-            <%= question[0].question.correctoptions[i].option %>
+            <h5><%= question[0].question.correctoptions[i].option %></h5>
           </li>
           <% } %>
         </ul>
-      </div>
+      
       <% } else { %>
-      <div class="card" style="width: 80%;margin-bottom: 3%;">
-        <h1>
-          Wait...
-        </h1>
+        <div
+        class="card"
+        style="margin-top: 20%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
+      >
+        <p><h3>You'll see your questions here!</h3></p>
       </div>
+      <div style="height:400px; width:100%; clear:both;"></div>
       <% } %>
     </div>
-    <div class="card" style="margin-top: 2%" id="vote-section">
-      <div class="card-body">
-        <h1>Whom do you want to vote out?</h1>
-        <ul>
-          <% for(let i = 0;i < participants.length;i++){
-          if(participants[i].isRemoved || participants[i].username === "admin"
-          || participants[i].username === "audience") continue; %>
-          <li id="opponent<%= participants[i].p_id %>">
-            <a href=""><%= participants[i].username %></a>
-          </li>
-          <% } %>
-        </ul>
+    <div class="container" id="vote-section" align="center">
+    <div
+        class="card"
+        style="margin-top: 2%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
+      >
+        <div class="card-body">
+          <p>
+            <h2>Whom do you want to vote out?</h2>
+          </p>
+        </div>
       </div>
-    </div>
+      
+            
+            <ul class="list-group list-group-flush" style="width: 90%">
+              <% for(let i = 0;i < participants.length;i++){
+              if(participants[i].isRemoved || participants[i].username === "admin"
+              || participants[i].username === "audience" || participants[i].username
+              === participant) continue; %>
+              <li class="list-group-item" id="opponent<%= participants[i].p_id %>" style="margin:1px;background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);border-radius: 100px;border-color:antiquewhite;border-width: medium;color:aliceblue">
+                <a href=""
+                  ><img
+                    src="/image/number/<%= participants[i].p_id %>.png"
+                    alt="<%= participants[i].username %>"
+                    width="50"
+                    height="50"
+                /></a>
+              </li>
+              <% } %>
+            </ul>
+          
+      </div>
+    
 
     <div class="toastlikemessage" style="display: none"></div>
     <script>
@@ -152,10 +167,10 @@
       for (let i = 1; i <= 10; i++) {
         $("#option" + i).on({
           mouseenter: function() {
-            $("#option" + i).css("background-color", "white");
+            $("#option" + i).css("background-image", "linear-gradient(to right, #806ca3, #633ea3, #806ca3)");
           },
           mouseleave: function() {
-            $("#option" + i).css("background-color", "gray");
+            $("#option" + i).css("background-image", "linear-gradient(to right, #633ea3, #806ca3, #633ea3)");
           }
         });
       }
