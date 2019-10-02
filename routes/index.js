@@ -84,6 +84,7 @@ router.get("/scoreboard", (req, res) => {
     else {
       let totals = [0, 0, 0, 0, 0, 0];
       let allScores = new Array(scores.length);
+      let questionNos = new Array(scores.length);
       for (let i = 0; i < allScores.length; i++) {
         allScores[i] = [
           scores[i].team1,
@@ -93,6 +94,7 @@ router.get("/scoreboard", (req, res) => {
           scores[i].team5,
           scores[i].team6
         ];
+        questionNos[i] = scores[i].qno;
       }
       for (let i = 0; i < scores.length; i++) {
         totals[0] += scores[i].team1;
@@ -104,6 +106,7 @@ router.get("/scoreboard", (req, res) => {
       }
       res.render("scoreboard", {
         title: "Scoreboard",
+        questionNos: questionNos,
         allScores: allScores,
         scores: scores,
         totals: totals

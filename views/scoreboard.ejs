@@ -2,9 +2,14 @@
 <html lang="en">
   <head>
     <%- include ./head %>
-    <link rel="stylesheet" href="/css/score.css" />
-
     <title>Scorecard</title>
+    <style>
+      body {
+        background-color: white;
+        background-size: cover;
+        background-position: center;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -33,8 +38,15 @@
         </div>
       </nav>
     </header>
-    <div class="container-fluid jumbotron">
+    <!-- <div class="container-fluid jumbotron">
       <canvas id="bar-chart" width="800" height="450"></canvas>
+    </div> -->
+    <div
+      class="container-fluid"
+      align="center"
+      style="position: relative; height:auto; width:90%;"
+    >
+      <canvas id="bar-chart"></canvas>
     </div>
 
     <script>
@@ -57,6 +69,16 @@
       */
       var stackData = [];
       while (totals.length) stackData.push(totals.splice(0, 6));
+      var questionNosStr = "<%- questionNos %>";
+      var questionNos;
+      if (questionNosStr.length === 0) {
+        questionNos = new Array();
+      } else {
+        questionNos = questionNosStr
+          .replace(/, +/g, ",")
+          .split(",")
+          .map(Number);
+      }
       var stackColors = [
         "#b3d717",
         "#e68d14",
@@ -74,11 +96,14 @@
       let dataset = [];
       for (let i = 0; i < stackData.length; i++) {
         dataset.push({
-          label: "Question" + (i + 1),
+          label: "Question " + questionNos[i],
           backgroundColor: stackColors[i],
           data: stackData[i]
         });
       }
+      var ctx = document.getElementById("bar-chart");
+      ctx.height = 170;
+
       new Chart(document.getElementById("bar-chart"), {
         type: "bar",
         data: {
@@ -91,6 +116,30 @@
             display: true,
             text: "Total scores of all the teams"
           },
+          tooltips: {
+            mode: "label",
+            callbacks: {
+              label: function(tooltipItem, data) {
+                let question = data.datasets[tooltipItem.datasetIndex].label;
+                let valor =
+                  data.datasets[tooltipItem.datasetIndex].data[
+                    tooltipItem.index
+                  ];
+                let total = 0;
+                for (let i = 0; i < data.datasets.length; i++)
+                  total += data.datasets[i].data[tooltipItem.index];
+
+                // if (tooltipItem.datasetIndex === data.datasets.length - 1)
+                //   return "Total : " + total;
+                // else "";
+
+                if (tooltipItem.datasetIndex !== data.datasets.length - 1)
+                  return question + " : " + valor;
+                else return [question + " : " + valor, "Total : " + total];
+              }
+            }
+          },
+          responsive: true,
           scales: {
             xAxes: [
               {
@@ -109,6 +158,22 @@
               //   }
             ]
           }
+          // ,
+          // plugins: {
+          //   datalabels: {
+          //     color: "white",
+          //     labels: {
+          //       title: {
+          //         font: {
+          //           weight: "bold"
+          //         }
+          //       }
+          //     },
+          //     display: true,
+          //     align: "center",
+          //     anchor: "center"
+          //   }
+          // }
         }
       });
     </script>
