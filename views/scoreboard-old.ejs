@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+    <link rel="stylesheet" href="/css/score.css" />
+
+    <title>Scorecard</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/"
+                >Back <span class="sr-only">(current)</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <div>
+      <div id="pricing-table" class="clear">
+        <br />
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team 1</b>
+                  <span><%= totals[0] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <li>
+                    <b>Question<%= scores[i].qno %></b>
+                    <h2><%= scores[i].team1 %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team 2</b>
+                  <span><%= totals[1] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <li>
+                    <b>Question<%= scores[i].qno %></b>
+                    <h2><%= scores[i].team2 %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team 3</b>
+                  <span><%= totals[2] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <li>
+                    <b>Question<%= scores[i].qno %></b>
+                    <h2><%= scores[i].team3 %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team 4</b>
+                  <span><%= totals[3] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <li>
+                    <b>Question<%= scores[i].qno %></b>
+                    <h2><%= scores[i].team4 %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team 5</b>
+                  <span><%= totals[4] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <li>
+                    <b>Question<%= scores[i].qno %></b>
+                    <h2><%= scores[i].team5 %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="plan">
+                <h3>
+                  <b>Team 6</b>
+                  <span><%= totals[5] %></span>
+                </h3>
+                <ul>
+                  <% for(let i = 0;i < scores.length;i++) { %>
+                  <li>
+                    <b>Question<%= scores[i].qno %></b>
+                    <h2><%= scores[i].team6 %></h2>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
