@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
   res.send("respond with a resource");
 });
 
-router.get("/register", isAdmin, (req, res) => {
+router.get("/register", (req, res) => {
   res.render("register", { title: "Register" });
 });
 

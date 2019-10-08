@@ -54,7 +54,6 @@ router.get("/audience", isAudience, (req, res) => {
       Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
         if (err) throw err;
         else {
-          console.log(question);
           res.render("audience", {
             participant: req.user.username,
             question: question,

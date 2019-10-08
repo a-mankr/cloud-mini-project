@@ -1,5 +1,5 @@
 // question selection logic
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 12; i++) {
   $("#change-to-question" + (i + 1)).on("click", () => {
     $.post("/feed/setcurrentquestion/" + (i + 1), function(data, status) {
       console.log("Data: " + data + "\nStatus: " + status);

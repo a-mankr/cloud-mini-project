@@ -86,14 +86,15 @@
         class="card"
         style="margin-top: 20%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
       >
-        <p><h3>We welcome you to the bluffmaster finals!</h3></p>
+        <p><h3>Hello all, </h3>
+        <h3>We welcome you to the bluffmaster finals!</h3></p>
       </div>
       <div style="height:400px; width:100%; clear:both;"></div>
       <% } %>
     <div class="toastlikemessage" style="display: none"></div>
     <script>
       for (let i = 1; i <= 10; i++) {
-          $("#optiontext" + i).text("---------------");
+          $("#optiontext" + i).text("--------"+i+"--------");
         $("#option" + i).on({
           mouseenter: function() {
             $("#option" + i).css("background-image", "linear-gradient(to right, #806ca3, #633ea3, #806ca3)");
@@ -104,9 +105,9 @@
         });
       }
       function showOrHideOption(optionNo, optionText){
-          if($("#optiontext" + optionNo).text() === "---------------")
+          if($("#optiontext" + optionNo).text() === "--------"+optionNo+"--------")
             $("#optiontext" + optionNo).text(optionText);
-        else $("#optiontext" + optionNo).text("---------------");
+        else $("#optiontext" + optionNo).text("--------"+optionNo+"--------");
       }
     </script>
   </body>
