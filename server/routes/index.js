@@ -13,7 +13,7 @@ router.get("/", loggedIn, (req, res) => {
         isBluff: req.user.isBluff,
         letVotingHappen: values[0].letVotingHappen,
         isRemoved: req.user.isRemoved,
-        participants: []
+        participants: [],
       });
     } else {
       Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
@@ -31,7 +31,7 @@ router.get("/", loggedIn, (req, res) => {
                 isBluff: req.user.isBluff,
                 letVotingHappen: values[0].letVotingHappen,
                 isRemoved: req.user.isRemoved,
-                participants: participants
+                participants: participants,
               });
             }
           });
@@ -42,26 +42,9 @@ router.get("/", loggedIn, (req, res) => {
 });
 
 router.get("/audience", isAudience, (req, res) => {
-  Variables.find({ identifier: "correct" }, (err, values) => {
-    if (err) throw err;
-    else if (values[0].currentQuestion === 0) {
-      res.render("audience", {
-        participant: req.user.username,
-        question: null,
-        title: "Bluffmaster"
-      });
-    } else {
-      Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
-        if (err) throw err;
-        else {
-          res.render("audience", {
-            participant: req.user.username,
-            question: question,
-            title: "Audience view"
-          });
-        }
-      });
-    }
+  res.render("audience", {
+    participant: req.user.username,
+    title: "Audience view",
   });
 });
 
@@ -91,7 +74,7 @@ router.get("/scoreboard", (req, res) => {
           scores[i].team3,
           scores[i].team4,
           scores[i].team5,
-          scores[i].team6
+          scores[i].team6,
         ];
         questionNos[i] = scores[i].qno;
       }
@@ -108,7 +91,7 @@ router.get("/scoreboard", (req, res) => {
         questionNos: questionNos,
         allScores: allScores,
         scores: scores,
-        totals: totals
+        totals: totals,
       });
     }
   });
@@ -117,7 +100,7 @@ router.get("/scoreboard", (req, res) => {
 router.get("/question/:qno", (req, res) => {
   res.render("question", {
     qno: req.params.qno,
-    title: "Q-" + req.params.qno
+    title: "Q-" + req.params.qno,
   });
 });
 

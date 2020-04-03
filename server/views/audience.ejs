@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <%- include ./head %>
-    <script src="/js/audience.js"></script>
     <title><%- title %></title>
     <style>
       body {
@@ -69,21 +68,68 @@
     </header>
 
     <div class="container" align="center">
-      <% if(question) { %>
       <div class="card">
         <div class="card-body">
           <h4 id="question-statement"></h4>
         </div>
       </div>
       <ul class="list-group list-group-flush" id="option-list"></ul>
-      <% } else { %>
-      <div class="card">
-        <h3>Hello all,</h3>
-        <h3>We welcome you to the bluffmaster finals!</h3>
-      </div>
-      <div style="height: 400px; width: 100%; clear: both;"></div>
-      <% } %>
+      <div
+        id="extra-space"
+        style="height: 400px; width: 100%; clear: both;"
+      ></div>
       <div class="toastlikemessage" style="display: none;"></div>
     </div>
+    <script>
+      function showOrHideOption(optText, optionNo, optionText) {
+        if ($(optText).text() == optionNo) $(optText).text(optionText);
+        else $(optText).text(optionNo);
+      }
+
+      fetch("http://localhost:3000/fetch/variables")
+        .then((res) => res.json())
+        .then(({ variables }) => {
+          let qno = variables[0].currentQuestion;
+          return fetch(`http://localhost:3000/fetch/question/${qno}`);
+        })
+        .then((res) => res.json())
+        .then(({ question }) => {
+          if (question[0].qno) {
+            const optionsArray = question[0].question.correctoptions;
+            $("#question-statement").text(`${question[0].qno}.
+        ${question[0].question.statement}`);
+            optionsArray.map((opt) => {
+              const optLi = $("<li />")
+                .addClass("list-group-item options")
+                .attr("id", `option${opt.optionNo}`);
+              const optText = $("<h5 />")
+                .attr("id", `optiontext${opt.optionNo}`)
+                .text(opt.optionNo);
+              $(optLi).append(optText);
+              $("#option-list").append(optLi);
+              $(optLi).on({
+                click: function () {
+                  showOrHideOption(optText, opt.optionNo, opt.option);
+                },
+                mouseenter: function () {
+                  $(optLi).css(
+                    "background-image",
+                    "linear-gradient(to right, #806ca3, #633ea3, #806ca3)"
+                  );
+                },
+                mouseleave: function () {
+                  $(optLi).css(
+                    "background-image",
+                    "linear-gradient(to right,#633ea3, #806ca3, #633ea3)"
+                  );
+                },
+              });
+              $("#extra-space").remove();
+            });
+          } else {
+            $("#question-statement").text(question[0].question.statement);
+          }
+        });
+    </script>
   </body>
 </html>
