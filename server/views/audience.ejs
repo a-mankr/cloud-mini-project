@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include ./head %>
+    <script src="/js/audience.js"></script>
+    <title><%- title %></title>
+    <style>
+      body {
+        background-size: cover;
+        background-image: linear-gradient(to right, #3c0b96, #ae95db, #3c0b96);
+      }
+      img {
+        max-width: 100%;
+        max-height: auto;
+      }
+      ul {
+        columns: 2;
+        width: 90%;
+      }
+      #option-list > * {
+        margin:1px;
+        background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);
+        border-radius: 100px;
+        border-color:antiquewhite;
+        border-width: medium;
+        color:aliceblue";
+      }
+      .card{
+        margin-top: 2%;
+          background-color: #280763;
+          color: whitesmoke;
+          border-color: antiquewhite;
+          border-radius: 100px;
+          border-width: thick;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Bluffmaster</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="color: green;"
+                >Hello, Audience</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/scoreboard">scoreboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/participants/logout">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <div class="container" align="center">
+      <% if(question) { %>
+      <div class="card">
+        <div class="card-body">
+          <h4 id="question-statement"></h4>
+        </div>
+      </div>
+      <ul class="list-group list-group-flush" id="option-list"></ul>
+      <% } else { %>
+      <div class="card">
+        <h3>Hello all,</h3>
+        <h3>We welcome you to the bluffmaster finals!</h3>
+      </div>
+      <div style="height: 400px; width: 100%; clear: both;"></div>
+      <% } %>
+      <div class="toastlikemessage" style="display: none;"></div>
+    </div>
+  </body>
+</html>

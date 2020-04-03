@@ -2,23 +2,21 @@ let express = require("express");
 let router = express.Router();
 
 router.get("/questions", loggedIn, (req, res, next) => {
-  Questions.find({}, (err, questions) => {
-    if (err) {
-      res.json({ success: false });
-    } else {
-      res.json({ questions: questions, success: true });
-    }
-  });
+  Questions.find({})
+    .then((questions) => res.json({ questions: questions, success: true }))
+    .catch((error) => res.json({ success: false, error: error }));
+});
+
+router.get("/variables", loggedIn, (req, res) => {
+  Variables.find({ identifier: "correct" })
+    .then((values) => res.json({ success: true, variables: values }))
+    .catch((error) => res.json({ success: false, error: error }));
 });
 
 router.get("/question/:qno", loggedIn, (req, res, next) => {
-  Questions.find({ qno: req.params.qno }, (err, question) => {
-    if (err) {
-      res.json({ success: false });
-    } else {
-      res.json({ question: question, success: true });
-    }
-  });
+  Questions.find({ qno: req.params.qno })
+    .then((question) => res.json({ question: question, success: true }))
+    .catch((error) => res.json({ success: false, error: error }));
 });
 
 router.get("/votes", loggedIn, (req, res, next) => {
