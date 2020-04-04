@@ -177,37 +177,39 @@
         .then(({ question }) => {
           if (question[0].qno) {
             const optionsArray = question[0].question.correctoptions;
-            if ($("#bluff-indictor").text().length === 0) {
-              shuffle(optionsArray);
-              console.log($("#bluff-indictor").text().length);
-            }
+
             $("#question-statement").text(`${question[0].qno}.
               ${question[0].question.statement}`);
-            optionsArray.map((opt) => {
-              const optLi = $("<li />")
-                .addClass("list-group-item options")
-                .attr("id", `option${opt.optionNo}`);
-              const optText = $("<h5 />")
-                .attr("id", `optiontext${opt.optionNo}`)
-                .text(opt.option);
-              $(optLi).append(optText);
-              $("#option-list").append(optLi);
-              $(optLi).on({
-                mouseenter: function () {
-                  $(optLi).css(
-                    "background-image",
-                    "linear-gradient(to right, #806ca3, #633ea3, #806ca3)"
-                  );
-                },
-                mouseleave: function () {
-                  $(optLi).css(
-                    "background-image",
-                    "linear-gradient(to right,#633ea3, #806ca3, #633ea3)"
-                  );
-                },
+            fetch("/participant")
+              .then((res) => res.json())
+              .then(({ participant }) => {
+                if (!participant.isBluff) shuffle(optionsArray);
+                optionsArray.map((opt) => {
+                  const optLi = $("<li />")
+                    .addClass("list-group-item options")
+                    .attr("id", `option${opt.optionNo}`);
+                  const optText = $("<h5 />")
+                    .attr("id", `optiontext${opt.optionNo}`)
+                    .text(opt.option);
+                  $(optLi).append(optText);
+                  $("#option-list").append(optLi);
+                  $(optLi).on({
+                    mouseenter: function () {
+                      $(optLi).css(
+                        "background-image",
+                        "linear-gradient(to right, #806ca3, #633ea3, #806ca3)"
+                      );
+                    },
+                    mouseleave: function () {
+                      $(optLi).css(
+                        "background-image",
+                        "linear-gradient(to right,#633ea3, #806ca3, #633ea3)"
+                      );
+                    },
+                  });
+                  $("#extra-space").remove();
+                });
               });
-              $("#extra-space").remove();
-            });
           } else {
             $("#question-statement").text(question[0].question.statement);
           }
