@@ -3,41 +3,8 @@ var express = require("express");
 var router = express.Router();
 
 router.get("/", loggedIn, (req, res) => {
-  Variables.find({ identifier: "correct" }, (err, values) => {
-    if (err) throw err;
-    else if (values[0].currentQuestion === 0) {
-      res.render("question", {
-        participant: req.user.username,
-        question: null,
-        title: "Bluffmaster",
-        isBluff: req.user.isBluff,
-        letVotingHappen: values[0].letVotingHappen,
-        isRemoved: req.user.isRemoved,
-        participants: [],
-      });
-    } else {
-      Questions.find({ qno: values[0].currentQuestion }, (err, question) => {
-        if (err) throw err;
-        else {
-          Participants.find({}, (err, participants) => {
-            if (err) throw err;
-            else {
-              if (!req.user.isBluff)
-                shuffle(question[0].question.correctoptions);
-              res.render("question", {
-                participant: req.user.username,
-                question: question,
-                title: "Bluffmaster",
-                isBluff: req.user.isBluff,
-                letVotingHappen: values[0].letVotingHappen,
-                isRemoved: req.user.isRemoved,
-                participants: participants,
-              });
-            }
-          });
-        }
-      });
-    }
+  res.render("question", {
+    title: "Bluffmaster",
   });
 });
 
@@ -97,12 +64,16 @@ router.get("/scoreboard", (req, res) => {
   });
 });
 
-router.get("/question/:qno", (req, res) => {
-  res.render("question", {
-    qno: req.params.qno,
-    title: "Q-" + req.params.qno,
-  });
+router.get("/participant", (req, res) => {
+  res.json({ participant: req.user });
 });
+
+// router.get("/question/:qno", (req, res) => {
+//   res.render("question", {
+//     qno: req.params.qno,
+//     title: "Q-" + req.params.qno,
+//   });
+// });
 
 // middleware to check if user is logged in
 function loggedIn(req, res, next) {

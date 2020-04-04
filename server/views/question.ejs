@@ -2,25 +2,43 @@
 <html lang="en">
   <head>
     <%- include ./head %>
-
-    <!-- <script src="/scripts/typedjs.js"></script> -->
-
     <title><%- title %></title>
     <style>
-      body {
-        background-size: cover;
-        
-        /* background-color: #3c0b96; */
-        background-image: linear-gradient(to right, #3c0b96, #ae95db, #3c0b96);
-      }
-      img {
-        max-width: 100%;
-        max-height: auto;
-      }
-
-      ul {
-        columns: 2;
-      }
+        body {
+          background-size: cover;
+          background-image: linear-gradient(to right, #3c0b96, #ae95db, #3c0b96);
+        }
+        img {
+          max-width: 100%;
+          max-height: auto;
+        }
+        ul {
+          columns: 2;
+        }
+      #vote-link > * {
+          margin:1px;
+          background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);
+          border-radius: 100px;
+          border-color:antiquewhite;
+          border-width: medium;
+          color:aliceblue;
+        }
+        .card{
+          margin-top: 2%;
+            background-color: #280763;
+            color: whitesmoke;
+            border-color: antiquewhite;
+            border-radius: 100px;
+            border-width: thick;
+        }
+        #option-list > * {
+          margin:1px;
+          background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);
+          border-radius: 100px;
+          border-color:antiquewhite;
+          border-width: medium;
+          color:aliceblue";
+        }
     </style>
   </head>
   <body>
@@ -41,29 +59,32 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                  <a class="nav-link" href="#" style="color: green"><%= participant %></a>
-                </li>
-            <% if(isBluff) { %>
-            <li>
-                <a class="nav-link" href="#" style="color: red">👺 You're the Bluffmaster 👺</a>
-              
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                href="#"
+                style="color: green;"
+                id="team-name"
+              ></a>
             </li>
-            <% }%>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="/scoreboard">scoreboard</a>
-            </li> -->
-            <% if(letVotingHappen) { %>
+            <li>
+              <a
+                class="nav-link"
+                href="#"
+                style="color: red;"
+                id="bluff-indicator"
+              ></a>
+            </li>
             <li class="nav-item">
               <a
                 class="nav-link"
                 href="#vote-section"
-                id="unhide-vote"
-                style="color: goldenrod"
+                id="voting-feature"
+                style="color: goldenrod;"
                 >Vote!</a
               >
             </li>
-            <% } %>
+
             <li class="nav-item">
               <a class="nav-link" href="/participants/logout">Logout</a>
             </li>
@@ -73,107 +94,150 @@
     </header>
 
     <div class="container" align="center">
-      <% if(isRemoved){ %>
-        <div
-        class="card"
-        style="margin-top: 20%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
-      >
-        <p><h3>Sorry, you are no longer in the game!</h3></p>
-      </div>
-      <div style="height:400px; width:100%; clear:both;"></div>
-      <% } else if(question) { %>
-      <div
-        class="card"
-        style="margin-top: 2%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
-      >
+      <div><div class="card removed"></div></div>
+      <div class="card not-removed">
         <div class="card-body">
-          <p>
-            <h4>Question <%= question[0].qno %> . <%= question[0].question.statement
-              %></h4>
-          </p>
+          <h4 id="question-statement"></h4>
         </div>
       </div>
-      
-        <ul class="list-group list-group-flush" style="width: 90%">
-          <% for(let i = 0;i < question[0].question.correctoptions.length;i++) {
-          %>
-          <li
-            class="list-group-item"
-            id="option<%= question[0].question.correctoptions[i].optionNo %>"
-            style="margin:1px;background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);border-radius: 100px;border-color:antiquewhite;border-width: medium;color:aliceblue"
-          >
-            <h5><%= question[0].question.correctoptions[i].option %></h5>
-          </li>
-          <% } %>
-        </ul>
-      
-      <% } else { %>
-        <div
-        class="card"
-        style="margin-top: 20%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
-      >
-        <p><h3>You'll see your questions here!</h3></p>
-      </div>
-      <div style="height:400px; width:100%; clear:both;"></div>
-      <% } %>
+      <ul class="list-group list-group-flush" id="option-list"></ul>
+      <div
+        id="extra-space"
+        style="height: 400px; width: 100%; clear: both;"
+      ></div>
     </div>
     <div class="container" id="vote-section" align="center">
-    <div
-        class="card"
-        style="margin-top: 2%;background-color: #280763;color:whitesmoke;border-color: antiquewhite;border-radius: 100px;border-width:thick"
-      >
+      <div class="card">
         <div class="card-body">
-          <p>
-            <h2>Whom do you want to vote out?</h2>
-          </p>
+          <h2>Whom do you want to vote out?</h2>
         </div>
       </div>
-      
-            
-            <ul class="list-group list-group-flush" style="width: 90%">
-              <% for(let i = 0;i < participants.length;i++){
-              if(participants[i].isRemoved || participants[i].username === "admin"
-              || participants[i].username === "audience" || participants[i].username
-              === participant) continue; %>
-              <li class="list-group-item" id="opponent<%= participants[i].p_id %>" style="margin:1px;background-image: linear-gradient(to right, #633ea3, #806ca3, #633ea3);border-radius: 100px;border-color:antiquewhite;border-width: medium;color:aliceblue">
-                <a href=""
-                  ><img
-                    src="/image/number/<%= participants[i].p_id %>.png"
-                    alt="<%= participants[i].username %>"
-                    width="50"
-                    height="50"
-                /></a>
-              </li>
-              <% } %>
-            </ul>
-          
-      </div>
-    
-
-    <div class="toastlikemessage" style="display: none"></div>
+      <ul
+        class="list-group list-group-flush"
+        id="vote-link"
+        style="width: 90%;"
+      ></ul>
+    </div>
+    <div class="toastlikemessage" style="display: none;"></div>
     <script>
-      $("#vote-section").hide();
-      $("#unhide-vote").on("click", () => {
-        $("#vote-section").show();
-      });
-      for (let i = 1; i <= 6; i++) {
-        $("#opponent" + i).on("click", () => {
-          $.post("/feed/vote/opponent/" + i, function(data, status) {
-            console.log("Data: " + data + "\nStatus: " + status);
-          });
-          alert("You voted for team" + i);
-        });
+      function votingCandidates(p) {
+        return (
+          !p.isRemoved && p.username !== "audience" && p.username !== "admin"
+        );
       }
-      for (let i = 1; i <= 10; i++) {
-        $("#option" + i).on({
-          mouseenter: function() {
-            $("#option" + i).css("background-image", "linear-gradient(to right, #806ca3, #633ea3, #806ca3)");
-          },
-          mouseleave: function() {
-            $("#option" + i).css("background-image", "linear-gradient(to right, #633ea3, #806ca3, #633ea3)");
+      // random shuffle array
+      function shuffle(array) {
+        var currentIndex = array.length,
+          temporaryValue,
+          randomIndex;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+        return array;
+      }
+      $("#vote-section").hide();
+      fetch("http://localhost:3000/participant")
+        .then((res) => res.json())
+        .then(({ participant }) => {
+          $("#team-name").text(participant.username);
+          if (participant.isRemoved) {
+            let msg = $("<h3/>").text("Sorry, you are no longer in the game!");
+            let extra_space = $("<div/>").css({
+              height: "400px",
+              width: "100%",
+              clear: "both",
+            });
+            $(".removed").append(msg);
+            $(".removed").parent().append(extra_space);
+            $(".not-removed").hide();
+            $("#option-list").remove();
+          } else {
+            $(".removed").hide();
+            $(".not-removed").show();
+          }
+          if (participant.isBluff)
+            $("#bluff-indicator").text("👺 You're the Bluffmaster 👺");
+        });
+      fetch("http://localhost:3000/fetch/variables")
+        .then((res) => res.json())
+        .then(({ variables }) => {
+          if (variables[0].letVotingHappen) $("#voting-feature").show();
+          else $("#voting-feature").hide();
+          let qno = variables[0].currentQuestion;
+          return fetch(`http://localhost:3000/fetch/question/${qno}`);
+        })
+        .then((res) => res.json())
+        .then(({ question }) => {
+          if (question[0].qno) {
+            const optionsArray = question[0].question.correctoptions;
+            if ($("#bluff-indictor").text().length === 0) {
+              shuffle(optionsArray);
+              console.log($("#bluff-indictor").text().length);
+            }
+            $("#question-statement").text(`${question[0].qno}.
+              ${question[0].question.statement}`);
+            optionsArray.map((opt) => {
+              const optLi = $("<li />")
+                .addClass("list-group-item options")
+                .attr("id", `option${opt.optionNo}`);
+              const optText = $("<h5 />")
+                .attr("id", `optiontext${opt.optionNo}`)
+                .text(opt.option);
+              $(optLi).append(optText);
+              $("#option-list").append(optLi);
+              $(optLi).on({
+                mouseenter: function () {
+                  $(optLi).css(
+                    "background-image",
+                    "linear-gradient(to right, #806ca3, #633ea3, #806ca3)"
+                  );
+                },
+                mouseleave: function () {
+                  $(optLi).css(
+                    "background-image",
+                    "linear-gradient(to right,#633ea3, #806ca3, #633ea3)"
+                  );
+                },
+              });
+              $("#extra-space").remove();
+            });
+          } else {
+            $("#question-statement").text(question[0].question.statement);
           }
         });
-      }
+      $("#voting-feature").on("click", () => {
+        fetch("http://localhost:3000/fetch/participants")
+          .then((res) => res.json())
+          .then(({ participants }) => {
+            participants.filter(votingCandidates).map((participant) => {
+              let username = $("<h1/>").text(participant.username);
+              let link = $("<a/>").attr("href", "");
+              $(link).append(username);
+              let litem = $("<li/>")
+                .addClass("list-group-item")
+                .attr("id", participant.username);
+              $(litem).on("click", () => {
+                $.post(`/feed/vote/opponent/${participant.p_id}`, function (
+                  data,
+                  status
+                ) {
+                  console.log("Data: " + data + "\nStatus: " + status);
+                });
+                alert(`You voted for team ${participant.username}`);
+              });
+              $(litem).append(link);
+              $("#vote-link").append(litem);
+            });
+          });
+        $("#vote-section").show();
+      });
     </script>
   </body>
 </html>
