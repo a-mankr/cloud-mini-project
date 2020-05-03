@@ -1,25 +1,31 @@
-let express = require("express");
+let express = require('express');
 let router = express.Router();
 
-router.get("/questions", loggedIn, (req, res, next) => {
+router.get('/questions', (req, res, next) => {
   Questions.find({})
-    .then((questions) => res.json({ questions: questions, success: true }))
+    .sort({ qno: 1 })
+    .then((result) => {
+      const questions = result.map((question) => {
+        return { isDone: question.isDone, qNo: question.qno };
+      });
+      res.json({ questions: questions, success: true });
+    })
     .catch((error) => res.json({ success: false, error: error }));
 });
 
-router.get("/variables", loggedIn, (req, res) => {
-  Variables.find({ identifier: "correct" })
+router.get('/variables', (req, res) => {
+  Variables.find({ identifier: 'correct' })
     .then((values) => res.json({ success: true, variables: values }))
     .catch((error) => res.json({ success: false, error: error }));
 });
 
-router.get("/question/:qno", loggedIn, (req, res, next) => {
-  Questions.find({ qno: req.params.qno })
+router.get('/question/:qno', (req, res, next) => {
+  Questions.findOne({ qno: req.params.qno })
     .then((question) => res.json({ question: question, success: true }))
     .catch((error) => res.json({ success: false, error: error }));
 });
 
-router.get("/votes", loggedIn, (req, res, next) => {
+router.get('/votes', (req, res, next) => {
   Votes.find({}, (err, votes) => {
     if (err) {
       res.json({ success: false });
@@ -29,7 +35,7 @@ router.get("/votes", loggedIn, (req, res, next) => {
   });
 });
 
-router.get("/participants", loggedIn, (req, res, next) => {
+router.get('/participants', (req, res, next) => {
   Participants.find({}, (err, participants) => {
     if (err) {
       res.json({ success: false });
@@ -39,7 +45,7 @@ router.get("/participants", loggedIn, (req, res, next) => {
   });
 });
 
-router.get("/scores", loggedIn, (req, res, next) => {
+router.get('/scores', (req, res, next) => {
   Scores.find({}, (err, scores) => {
     if (err) {
       res.json({ success: false });
@@ -53,7 +59,7 @@ function loggedIn(req, res, next) {
   if (req.user) {
     next();
   } else {
-    res.redirect("/participants/login");
+    res.redirect('/participants/login');
   }
 }
 
