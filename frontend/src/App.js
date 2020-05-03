@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Navbar from './components/Navbar';
 import Admin from './components/Admin';
+import Questions from './components/Questions';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -17,6 +18,7 @@ function App() {
       <Navbar />
       <Router>
         <Admin path="/" />
+        <Questions path="/audience" />
       </Router>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import ChooseBluffmaster from './ChooseBluffmaster';
@@ -19,17 +19,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Admin() {
   const classes = useStyles();
+  const [currentQues, setCurrentQues] = useState(0);
   return (
     <div className={classes.root}>
-      <Grid container xs={12}>
+      <Grid container direction="row" justify="center" alignItems="center">
         <Grid item xs={4} className={classes.grid}>
-          <QuestionSelector />
+          <QuestionSelector setCurrentQues={setCurrentQues} />
         </Grid>
         <Grid item xs={4} className={classes.grid}>
-          <DisplayQuestion />
+          <DisplayQuestion currentQues={currentQues} />
         </Grid>
         <Grid item xs={4} className={classes.grid}>
-          <DisplayOptions />
+          <DisplayOptions currentQues={currentQues} />
         </Grid>
         <Grid item xs={4} className={classes.grid}>
           <ChooseBluffmaster />
