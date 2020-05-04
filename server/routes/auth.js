@@ -5,6 +5,7 @@ const config = require('../auth/config');
 const Participants = require('../models/Participants');
 
 router.post('/login', (req, res) => {
+  console.log(req.body);
   let username = req.body.email;
   let password = req.body.password;
   // For the given username fetch user from DB
