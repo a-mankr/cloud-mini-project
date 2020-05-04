@@ -1,7 +1,7 @@
 import React from 'react';
-import { Router } from '@reach/router';
-import './App.css';
+import { Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import './App.css';
 
 import Navbar from './components/Navbar';
 import Admin from './components/Admin';
@@ -16,10 +16,10 @@ function App() {
   return (
     <div className={classes.root}>
       <Navbar />
-      <Router>
-        <Admin path="/" />
-        <Questions path="/audience" />
-      </Router>
+      <Switch>
+        <Route exact path="/" component={Admin} />
+        <Route exact path="/audience" component={Questions} />
+      </Switch>
     </div>
   );
 }

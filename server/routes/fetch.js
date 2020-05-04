@@ -1,4 +1,5 @@
 let express = require('express');
+let middleware = require('../auth/middleware');
 let router = express.Router();
 
 router.get('/questions', (req, res, next) => {
@@ -19,7 +20,7 @@ router.get('/variables', (req, res) => {
     .catch((error) => res.json({ success: false, error: error }));
 });
 
-router.get('/question/:qno', (req, res, next) => {
+router.get('/question/:qno', middleware.checkToken, (req, res, next) => {
   Questions.findOne({ qno: req.params.qno })
     .then((question) => res.json({ question: question, success: true }))
     .catch((error) => res.json({ success: false, error: error }));

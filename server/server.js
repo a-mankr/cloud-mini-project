@@ -17,16 +17,19 @@ let adminRouter = require('./routes/admin');
 let feedRouter = require('./routes/feed');
 let fetchRouter = require('./routes/fetch');
 let participantsRouter = require('./routes/participants');
+let authRouter = require('./routes/auth');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
   next();
 });
 
@@ -62,6 +65,7 @@ app.use('/admin', adminRouter);
 app.use('/feed', feedRouter);
 app.use('/fetch', fetchRouter);
 app.use('/participants', participantsRouter);
+app.use('/auth', authRouter);
 
 app.get('/', (req, res) => {
   res.send('hello world');
