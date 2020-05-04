@@ -8,9 +8,9 @@ mongoose.connect('mongodb://localhost:27017/bluffmaster', {
 const db = mongoose.connection;
 
 var ParticipantsSchema = mongoose.Schema({
-  p_id: {
-    type: Number,
-  },
+  // p_id: {
+  //   type: Number,
+  // },
   username: {
     type: String,
   },
@@ -27,9 +27,6 @@ var ParticipantsSchema = mongoose.Schema({
   isRemoved: {
     type: Boolean,
     default: false,
-  },
-  profileimage: {
-    type: String,
   },
 });
 

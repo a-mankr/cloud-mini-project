@@ -4,6 +4,31 @@ const jwt = require('jsonwebtoken');
 const config = require('../auth/config');
 const Participants = require('../models/Participants');
 
+router.post('/register', (req, res) => {
+  const { name, username, password } = req.body;
+
+  let newParticipant = new Participants({
+    // p_id: p_id,
+    name: name,
+    username: username,
+    password: password,
+  });
+
+  Participants.findOne({ username: username }, (err, found) => {
+    if (err) throw err;
+    if (found) {
+      res.status(403).json({ success: false, message: 'User exists, try different username' });
+    } else {
+      Participants.createParticipant(newParticipant, (err, participant) => {
+        if (err) throw err;
+        else {
+          res.json({ success: true, message: 'Registration successful' });
+        }
+      });
+    }
+  });
+});
+
 router.post('/login', (req, res) => {
   console.log(req.body);
   let username = req.body.email;
