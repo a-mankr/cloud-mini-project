@@ -7,6 +7,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Chip from '@material-ui/core/Chip';
+import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ReplayIcon from '@material-ui/icons/ReplayOutlined';
 
@@ -73,9 +74,11 @@ export default function QuestionSelector(props) {
           ``
         )}
         <br />
-        <IconButton onClick={handleReset}>
-          <ReplayIcon />
-        </IconButton>
+        <Tooltip title="Reset">
+          <IconButton onClick={handleReset}>
+            <ReplayIcon />
+          </IconButton>
+        </Tooltip>
       </Paper>
     </div>
   );
