@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -14,6 +15,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { Tooltip } from '@material-ui/core';
+import LogOutIcon from '@material-ui/icons/ExitToAppOutlined';
+import { useHistory } from 'react-router-dom';
+import auth from '../auth';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,10 +33,14 @@ const useStyles = makeStyles((theme) => ({
   fullList: {
     width: 'auto',
   },
+  title: {
+    flexGrow: 1,
+  },
 }));
 
 export default function DenseAppBar() {
   const classes = useStyles();
+  const history = useHistory();
 
   const [state, setState] = useState({
     top: false,
@@ -47,6 +56,10 @@ export default function DenseAppBar() {
       return;
     }
     setState({ ...state, [anchor]: open });
+  };
+
+  const handleLogOut = () => {
+    auth.logOut(() => history.push('/'));
   };
 
   const list = (anchor) => (
@@ -81,7 +94,7 @@ export default function DenseAppBar() {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar variant="dense">
+        <Toolbar>
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -91,9 +104,18 @@ export default function DenseAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit">
+          <Typography variant="h6" color="inherit" className={classes.title}>
             Bluffmaster
           </Typography>
+          {auth.isAuthenticated() ? (
+            <Tooltip title="Logout">
+              <IconButton onClick={handleLogOut} color="inherit">
+                <LogOutIcon />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            ''
+          )}
         </Toolbar>
       </AppBar>
       <SwipeableDrawer

@@ -27,10 +27,10 @@ export default function Admin() {
           <QuestionSelector setCurrentQues={setCurrentQues} />
         </Grid>
         <Grid item xs={4} className={classes.grid}>
-          <DisplayQuestion currentQues={currentQues} />
+          {/* <DisplayQuestion currentQues={currentQues} /> */}
         </Grid>
         <Grid item xs={4} className={classes.grid}>
-          <DisplayOptions currentQues={currentQues} />
+          {/* <DisplayOptions currentQues={currentQues} /> */}
         </Grid>
         <Grid item xs={4} className={classes.grid}>
           <ChooseBluffmaster />

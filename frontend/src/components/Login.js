@@ -11,6 +11,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import auth from '../auth';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,13 +34,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn(props) {
+export default function SignIn() {
   const history = useHistory();
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [notRegistered, setNotRegistered] = useState(false);
 
-  const handleSubmit = (email, password) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const data = {
       email: email,
       password: password,
@@ -51,35 +55,39 @@ export default function SignIn(props) {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        if (result.success) {
-          // localStorage.setItem('token', result.token);
+      .then((res) => {
+        if (res.status === 403) {
+          setNotRegistered(true);
         }
-        // console.log(localStorage.getItem('token'));
-        // history.push('/');
-      });
+        return res.json();
+      })
+      .then((result) => {
+        if (result.success) {
+          console.log(result);
+          auth.setToken(result.token, () => history.push('/'));
+        }
+      })
+      .catch(console.log);
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      <Button
-        onClick={() => {
-          history.push('/');
-        }}
-      >
-        test
-      </Button>
       <CssBaseline />
       <div className={classes.paper}>
+        {notRegistered ? (
+          <Alert severity="warning" variant="outlined">
+            Username or password not found, Sign up now!
+          </Alert>
+        ) : (
+          ''
+        )}
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Log In
         </Typography>
-        <form className={classes.form} noValidate onSubmit={() => handleSubmit(email, password, history)}>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
