@@ -9,14 +9,22 @@ export default function QuestionSelector(props) {
   const [selectedQuestion, setSelectedQuestion] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost:3001/fetch/question/${currentQues}`)
+    const auth = JSON.parse(localStorage.getItem('token'));
+    let token;
+    if (auth && auth.authenticated) token = auth.token;
+    fetch(`http://localhost:3001/fetch/question/${currentQues}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
           const statement = data.question && data.question.question && data.question.question.statement;
           setSelectedQuestion(statement);
         }
-      });
+      })
+      .catch(console.log);
   }, [currentQues]);
 
   return (

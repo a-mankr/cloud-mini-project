@@ -38,35 +38,39 @@ export default function SignIn(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // useEffect(() => {
-  //   fetch('http://localhost:3001/fetch/question/1')
-  //     .then((res) => res.json())
-  //     .then(console.log);
-  // }, []);
-
-  const handleSubmit = async () => {
+  const handleSubmit = (email, password) => {
     const data = {
       email: email,
       password: password,
     };
-    let response = await fetch('http://localhost:3001/auth/login', {
+    fetch('http://localhost:3001/auth/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    });
-    let result = await response.json();
-    console.log(result);
-    if (result.success) {
-      localStorage.setItem('token', result.token);
-    }
-    // localStorage.setItem('token', JSON.stringify({ authenticated: true, token: result.token }));
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        if (result.success) {
+          // localStorage.setItem('token', result.token);
+        }
+        // console.log(localStorage.getItem('token'));
+        // history.push('/');
+      });
   };
 
   return (
     <Container component="main" maxWidth="xs">
+      <Button
+        onClick={() => {
+          history.push('/');
+        }}
+      >
+        test
+      </Button>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -75,7 +79,7 @@ export default function SignIn(props) {
         <Typography component="h1" variant="h5">
           Log In
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={() => handleSubmit(email, password, history)}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -101,7 +105,14 @@ export default function SignIn(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-          <Button fullWidth variant="contained" color="primary" className={classes.submit} onClick={handleSubmit}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            // onClick={() => handleSubmit(email, password)}
+          >
             Sign In
           </Button>
           <Grid container>
