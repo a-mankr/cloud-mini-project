@@ -11,14 +11,17 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ReplayIcon from '@material-ui/icons/ReplayOutlined';
 import CurrentQuestionContext from './CurrentQuestionContext';
+import auth from '../auth';
 
 export default function QuestionSelector(props) {
   const classes = gridStyles();
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useContext(CurrentQuestionContext);
 
+  const authToken = auth.getToken();
+
   useEffect(() => {
-    fetch('http://localhost:3001/fetch/questions')
+    fetch('http://localhost:3001/fetch/questions', { headers: { Authorization: `Bearer ${authToken}` } })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -26,7 +29,7 @@ export default function QuestionSelector(props) {
           setQuestions(questionNumbers);
         }
       });
-  }, [currentQuestion.qNo]);
+  }, [currentQuestion.qNo, authToken]);
 
   const handleChange = (e) => {
     fetch(`http://localhost:3001/feed/setcurrentquestion/${currentQuestion.qNo}`, { method: 'POST' });

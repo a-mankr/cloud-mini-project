@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 const config = require('../auth/config');
 const Participants = require('../models/Participants');
 
+router.get('/', (req, res) => {
+  res.json({ message: 'Hello there' });
+});
+
 router.post('/register', (req, res) => {
   const { name, username, password } = req.body;
 
@@ -27,6 +31,10 @@ router.post('/register', (req, res) => {
       });
     }
   });
+});
+
+router.get('/test', (req, res) => {
+  res.send(req.user);
 });
 
 router.post('/login', (req, res) => {
