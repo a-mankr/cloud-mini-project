@@ -1,8 +1,0 @@
-{"_id":{"$oid":"5d95e9119a31a81cf0642a46"},"isBluff":false,"isRemoved":false,"p_id":1,"name":"team1","username":"team1","password":"$2a$10$yx4D4loGmuWqt631ypo1jOg/OYDDJhJm2wZATvYhWAcIS8HXPRZpG","__v":0}
-{"_id":{"$oid":"5d95e9a806d7693680eef0f7"},"isBluff":false,"isRemoved":false,"p_id":2,"name":"team2","username":"team2","password":"$2a$10$DMx3nJzAuboh7nXiflklIemfBgm6ffekvEfJHUF7VQhamKlFZnHji","__v":0}
-{"_id":{"$oid":"5d95e9d206d7693680eef0f8"},"isBluff":false,"isRemoved":false,"p_id":3,"name":"team3","username":"team3","password":"$2a$10$jkK8z5aRFyfIeFsDYm3AWugAyCG7MMWDmRMm94qqElkx/5XAW0hNG","__v":0}
-{"_id":{"$oid":"5d95e9f706d7693680eef0f9"},"isBluff":false,"isRemoved":false,"p_id":4,"name":"team4","username":"team4","password":"$2a$10$vdkwOWlIio8ht60qce4IMeQzw2zCr4up9F2cHilLIVlJk63lWiKSe","__v":0}
-{"_id":{"$oid":"5d95ea1706d7693680eef0fa"},"isBluff":false,"isRemoved":false,"p_id":5,"name":"team5","username":"team5","password":"$2a$10$8mOcf8PSts6RYOzFiDlqPuCXx0jN7Ustq.JqE8GhZWNYnNgeP2cYu","__v":0}
-{"_id":{"$oid":"5d95ea3c06d7693680eef0fb"},"isBluff":false,"isRemoved":false,"p_id":6,"name":"team6","username":"team6","password":"$2a$10$QAe1riJ0d3fUBeZkFJrPKOO3Aw/MZOAXPpBH3Q7lXk2vD9jshTVq.","__v":0}
-{"_id":{"$oid":"5d95ea8206d7693680eef0fd"},"isBluff":false,"isRemoved":false,"p_id":8,"name":"audience","username":"audience","password":"$2a$10$mWGxf8y3ySEwDQjpiPSuTeiNvn9NChSdm1buKP1FZA3RzIe1Gw64S","__v":0}
-{"_id":{"$oid":"5d996696faf6c34030b89884"},"isBluff":false,"isRemoved":false,"p_id":7,"name":"admin","username":"admin","password":"$2a$10$E8IeiGMm2OehiJPSuFbkge58g32QXQDThmdvATcvSP1qFdcJNMtrK","__v":0}

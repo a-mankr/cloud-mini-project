@@ -10,8 +10,12 @@ RUN yarn
 
 COPY . /admin/
 
+RUN yarn build --production
+
+RUN yarn global add install serve
+
 EXPOSE 3002
 
-CMD ["yarn", "start"]
+CMD serve -s build -l 3002
 
 
