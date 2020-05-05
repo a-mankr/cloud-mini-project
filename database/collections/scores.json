@@ -1,0 +1,10 @@
+{"_id":{"$oid":"5d996c6efb85150dfc40bd33"},"qno":1,"__v":0,"team1":60,"team2":50,"team3":30,"team4":70,"team5":10,"team6":90}
+{"_id":{"$oid":"5d996da8fb85150dfc40bdea"},"qno":2,"__v":0,"team1":40,"team2":70,"team3":10,"team4":60,"team5":90,"team6":30}
+{"_id":{"$oid":"5d9970a0fb85150dfc40bfb7"},"qno":3,"__v":0,"team1":30,"team2":null,"team3":100,"team4":40,"team5":60,"team6":70}
+{"_id":{"$oid":"5d9971d8fb85150dfc40c06f"},"qno":4,"__v":0,"team1":70,"team2":null,"team3":40,"team4":60,"team5":50,"team6":20}
+{"_id":{"$oid":"5d997425fb85150dfc40c254"},"qno":5,"__v":0,"team1":60,"team2":null,"team3":90,"team4":50,"team5":null,"team6":70}
+{"_id":{"$oid":"5d997503fb85150dfc40c2e5"},"qno":6,"__v":0,"team1":70,"team2":null,"team3":20,"team4":40,"team5":null,"team6":80}
+{"_id":{"$oid":"5d9976e1fb85150dfc40c469"},"qno":7,"__v":0,"team1":80,"team2":null,"team3":null,"team4":60,"team5":null,"team6":90}
+{"_id":{"$oid":"5d9977b8fb85150dfc40c4fc"},"qno":8,"__v":0,"team1":90,"team2":null,"team3":null,"team4":100,"team5":null,"team6":80}
+{"_id":{"$oid":"5d99796ffb85150dfc40c62d"},"qno":9,"__v":0,"team1":70,"team2":null,"team3":null,"team4":null,"team5":null,"team6":90}
+{"_id":{"$oid":"5d997a2bfb85150dfc40c6af"},"qno":10,"__v":0,"team1":100,"team2":null,"team3":null,"team4":null,"team5":null,"team6":60}

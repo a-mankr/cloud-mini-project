@@ -1,0 +1,6 @@
+{"_id":{"$oid":"5d910694fdfe4ecb99e9072a"},"team":"team5","__v":0,"votedFor":0}
+{"_id":{"$oid":"5d9106abfdfe4ecb99e90748"},"team":"team4","__v":0,"votedFor":0}
+{"_id":{"$oid":"5d9106b3fdfe4ecb99e9074f"},"team":"team6","__v":0,"votedFor":0}
+{"_id":{"$oid":"5d9117dffdfe4ecb99e90ee8"},"team":"team2","__v":0,"votedFor":0}
+{"_id":{"$oid":"5d91180bfdfe4ecb99e90f0b"},"team":"team3","__v":0,"votedFor":0}
+{"_id":{"$oid":"5d91207dfdfe4ecb99e8fe33"},"team":"team1","__v":0,"votedFor":0}
