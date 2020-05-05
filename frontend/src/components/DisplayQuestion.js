@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Paper from '@material-ui/core/Paper';
 import gridStyles from './gridStyles';
+import CurrentQuestionContext from './CurrentQuestionContext';
 
-export default function QuestionSelector(props) {
+export default function QuestionSelector() {
   const classes = gridStyles();
-  const { currentQues } = props;
 
+  const [currentQuestion] = useContext(CurrentQuestionContext);
   const [selectedQuestion, setSelectedQuestion] = useState('');
 
   useEffect(() => {
-    const auth = JSON.parse(localStorage.getItem('token'));
-    let token;
-    if (auth && auth.authenticated) token = auth.token;
-    fetch(`http://localhost:3001/fetch/question/${currentQues}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    fetch(`http://localhost:3001/fetch/question/${currentQuestion.qNo}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
@@ -25,13 +19,13 @@ export default function QuestionSelector(props) {
         }
       })
       .catch(console.log);
-  }, [currentQues]);
+  }, [currentQuestion.qNo]);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={3}>
         Selected question will be displayed here i.e. <br />
-        Question no.: {currentQues} <br />
+        Question no.: {currentQuestion.qNo} <br />
         <h1>{selectedQuestion}</h1>
       </Paper>
     </div>

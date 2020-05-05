@@ -7,6 +7,7 @@ import DisplayQuestion from './DisplayQuestion';
 import DisplayOptions from './DisplayOptions';
 import ActivePlayers from './ActivePlayers';
 import QuestionSelector from './QuestionSelector';
+import CurrentQuestionContext from './CurrentQuestionContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,29 +20,31 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Admin() {
   const classes = useStyles();
-  const [currentQues, setCurrentQues] = useState(0);
+  const currentQues = useState({ isDone: false, qNo: 0 });
   return (
-    <div className={classes.root}>
-      <Grid container direction="row" justify="center" alignItems="center">
-        <Grid item xs={4} className={classes.grid}>
-          <QuestionSelector setCurrentQues={setCurrentQues} />
+    <CurrentQuestionContext.Provider value={currentQues}>
+      <div className={classes.root}>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item xs={4} className={classes.grid}>
+            <QuestionSelector />
+          </Grid>
+          <Grid item xs={4} className={classes.grid}>
+            <DisplayQuestion />
+          </Grid>
+          <Grid item xs={4} className={classes.grid}>
+            <DisplayOptions />
+          </Grid>
+          <Grid item xs={4} className={classes.grid}>
+            <ChooseBluffmaster />
+          </Grid>
+          <Grid item xs={4} className={classes.grid}>
+            <ActivePlayers />
+          </Grid>
+          <Grid item xs={4} className={classes.grid}>
+            <Voting />
+          </Grid>
         </Grid>
-        <Grid item xs={4} className={classes.grid}>
-          {/* <DisplayQuestion currentQues={currentQues} /> */}
-        </Grid>
-        <Grid item xs={4} className={classes.grid}>
-          {/* <DisplayOptions currentQues={currentQues} /> */}
-        </Grid>
-        <Grid item xs={4} className={classes.grid}>
-          <ChooseBluffmaster />
-        </Grid>
-        <Grid item xs={4} className={classes.grid}>
-          <ActivePlayers />
-        </Grid>
-        <Grid item xs={4} className={classes.grid}>
-          <Voting />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </CurrentQuestionContext.Provider>
   );
 }

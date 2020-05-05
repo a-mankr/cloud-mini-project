@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Paper from '@material-ui/core/Paper';
 import gridStyles from './gridStyles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -10,11 +10,12 @@ import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ReplayIcon from '@material-ui/icons/ReplayOutlined';
+import CurrentQuestionContext from './CurrentQuestionContext';
 
 export default function QuestionSelector(props) {
   const classes = gridStyles();
   const [questions, setQuestions] = useState([]);
-  const [selected, setSelected] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useContext(CurrentQuestionContext);
 
   useEffect(() => {
     fetch('http://localhost:3001/fetch/questions')
@@ -25,22 +26,19 @@ export default function QuestionSelector(props) {
           setQuestions(questionNumbers);
         }
       });
-  }, [selected]);
+  }, [currentQuestion.qNo]);
 
   const handleChange = (e) => {
-    fetch(`http://localhost:3001/feed/setcurrentquestion/${selected}`, { method: 'POST' });
-    setSelected(e.target.value);
-    props.setCurrentQues(e.target.value);
+    fetch(`http://localhost:3001/feed/setcurrentquestion/${currentQuestion.qNo}`, { method: 'POST' });
+    setCurrentQuestion(Object.assign({}, currentQuestion, { qNo: e.target.value }));
   };
   const handleDelete = () => {
-    fetch(`http://localhost:3001/feed/markquesasdone/${selected}`, { method: 'POST' });
-    setSelected(0);
-    props.setCurrentQues(0);
+    fetch(`http://localhost:3001/feed/markquesasdone/${currentQuestion.qNo}`, { method: 'POST' });
+    setCurrentQuestion(Object.assign({}, currentQuestion, { qNo: 0 }));
   };
   const handleReset = async () => {
     fetch(`http://localhost:3001/feed/resetquesdone`, { method: 'POST' });
-    setSelected(0);
-    props.setCurrentQues(0);
+    setCurrentQuestion(Object.assign({}, currentQuestion, { qNo: 0 }));
   };
   return (
     <div className={classes.root}>
@@ -52,7 +50,7 @@ export default function QuestionSelector(props) {
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            value={selected}
+            value={currentQuestion.qNo}
             onChange={handleChange}
           >
             <MenuItem value={0}>
@@ -68,8 +66,13 @@ export default function QuestionSelector(props) {
         </FormControl>
         <br />
         <br />
-        {selected ? (
-          <Chip label={`Selected Question ${selected}`} onDelete={handleDelete} color="primary" variant="outlined" />
+        {currentQuestion.qNo ? (
+          <Chip
+            label={`currentQuestion  ${currentQuestion.qNo}`}
+            onDelete={handleDelete}
+            color="primary"
+            variant="outlined"
+          />
         ) : (
           ``
         )}
