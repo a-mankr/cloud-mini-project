@@ -1,0 +1,33 @@
+version: '3'
+services:
+  backend:
+    container_name: bluffmaster-backend
+    build: ./backend
+    command: yarn start
+    volumes:
+      - ./backend:/backend
+    ports:
+      - '3001:3001'
+    links:
+      - mongo
+  admin:
+    container_name: bluffmaster-admin
+    build: ./admin
+    volumes:
+      - ./admin:/admin
+    ports:
+      - '3002:3002'
+    links:
+      - backend
+  users:
+    container_name: bluffmaster-users
+    build: ./users
+    volumes:
+      - ./users:/users
+    ports:
+      - '3000:3000'
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - '27017:27017'
