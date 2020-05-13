@@ -1,17 +1,17 @@
 version: '3'
 services:
   backend:
-    container_name: bluffmaster-backend
+    container_name: cmp-backend
     build: ./backend
-    command: yarn start
+    command: yarn dev
     volumes:
       - ./backend:/backend
     ports:
       - '3001:3001'
     links:
-      - mongo
+      - database
   admin:
-    container_name: bluffmaster-admin
+    container_name: cmp-admin
     build: ./admin
     volumes:
       - ./admin:/admin
@@ -20,14 +20,16 @@ services:
     links:
       - backend
   users:
-    container_name: bluffmaster-users
+    container_name: cmp-users
     build: ./users
     volumes:
       - ./users:/users
     ports:
       - '3000:3000'
-  mongo:
-    container_name: mongo
-    image: mongo
+  database:
+    container_name: 'cmp-database'
+    build: ./database
+    volumes:
+      - ./mongo-volume:/data/db
     ports:
-      - '27017:27017'
+      - '27017-27019:27017-27019'

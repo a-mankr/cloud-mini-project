@@ -1,76 +1,39 @@
-# API design in Node.js with Express, v3
-> Scott Moss & Frontend Masters
+# Example App (Cloud mini project)
 
-- [Resources](#resources)
-- [Course](#course)
-- [Excercises](#excercises)
-  - [Hello world Express](#hello-world-express)
-  - [Routing](#routing)
-  - [Create Schemas](#create-schemas)
-  - [Controllers](#controllers)
-  - [Authentication](#authentication)
-  - [Testing](#testing)
+A simple distributed application running across multiple Docker containers.
 
-## Resources
-* [Slides](https://slides.com/scotups/api-design-in-node-with-express-v3/fullscreen)
-* [Nodejs](https://nodejs.org/en/)
-* [Express](https://expressjs.com/)
-* [MongoDB](https://www.mongodb.com/)
+## Getting started
 
-## Course
-This course has two parts, slides and excercises. The slides describe the excerices in detail. Each excercise has a starting branch and solution branch. Example `lesson-1` and `lesson-1-solution`.
-## Excercises
-### Hello world Express
-* branch - `lesson-1`
+Download [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. [Docker Compose](https://docs.docker.com/compose) will be automatically installed. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
 
-In this lesson you'll be creating a simple Express based API in node, just to get your feet wet.
-- [ ] install dependencies with yarn (prefered for version locking) or npm
-- [ ] create a route that sends back some json
-- [ ] create a route that accepts json and logs it
-- [ ] start the server
+## Linux Containers
 
-### Routing
-* branch - `lesson-2`
-* test command - `yarn test-routes` or `npm run test-routes`
+The Linux stack uses Node.js and MongoDB for storage.
 
-This exercise will have you creating routes and sub routers for our soon the be DB resources using Express routing and routers
-- [ ] create a router for the Item resource
-- [ ] create full crud routes and create placeholder controllers
-- [ ] mount router on the root server
-- [ ] ensure all tests pass by running test command
+> If you're using [Docker Desktop on Windows](https://store.docker.com/editions/community/docker-ce-desktop-windows), you can run the Linux version by [switching to Linux containers](https://docs.docker.com/docker-for-windows/#switch-between-windows-and-linux-containers), or run the Windows containers version.
 
-### Create Schemas
-* branch - `lesson-3`
-* test command - `yarn test-models` or `npm run test-models`
+Run in this directory:
 
-In this exercise, you'll be taking what you learned about Mongoose and MongoDb to create a schema and model for the Item resource.
+```
+docker-compose build
+```
 
-- [ ] create a schema for the item resource
-- [ ] add the correct fields (look at test)
-- [ ] add the correct validations (look at test)
-- [ ] *extra* add compund index to ensure all tasks in a list have unique names
-- [ ] ensure all tests pass by running test command
+```
+docker-compose up
+```
 
-### Controllers
-* branch - `lesson-4`
-* test command - `yarn test-controllers` or `npm run test-controllers`
+The admin dashboard will be running at [http://localhost:3002](http://localhost:3002), backend APIs will be served from
+[http://localhost:3001](http://localhost:3001) and the players will be able to login at [http://localhost:3000](http://localhost:3000).
 
-So far we have routes and models. Now we need to hook our routes up to our models so we can perfom CRUD on the models based on the routes + verbs. That's exactly what controllers do.
+## Architecture
 
-- [ ] create CRUD resolvers in `utils/crud.js`
-- [ ] create controllers for the Item resources using the base crud resolvers
-- [ ] ensure all tests pass by running test command
+![Architecture diagram](architecture.png)
 
-### Authentication
-* branch - `lesson-5`
-* test command - `yarn test-auth` or `npm run test-auth`
+- A front-end web app written in [React](/admin) which lets you control the admin dashboard after authentication.
+- Another front-end web app written in [React](/users) which lets you participate in the quiz game after authentication.
+- An [expressJS](/backend) backend that provides the REST APIs.
+- A [MongoDB](https://en.wikipedia.org/wiki/MongoDB) database backed by a Docker volume
 
-In this exercise you'll be locking down our API using JWT's.
+## Note
 
-- [ ] create a signup controller
-- [ ] create a signin controller
-- [ ] create a protect middlware to lock down API routes
-- [ ] ensure all tests pass by running test command
-
-### Testing
-THe other resources don't have any test, go ahead and write some!
+Prime focus of this project is containerization of different apps and their orchestration using docker-compose.
