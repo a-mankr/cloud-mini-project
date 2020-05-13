@@ -36,38 +36,36 @@ export default function SignUp() {
   const classes = useStyles();
   const history = useHistory();
 
-  const [name, setName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [userExists, setUserExists] = useState(false);
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     const data = {
-      name: name,
-      username: username,
+      email: username,
       password: password,
     };
-    fetch('http://localhost:3001/auth/register', {
+    const res = await fetch('http://localhost:3001/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status === 403) {
-          setUserExists(true);
-        }
-        return res.json();
-      })
-      .then((result) => {
-        if (result.success) {
-          console.log(result);
-          history.push('/login');
-        }
-      });
+    });
+
+    switch (res.status) {
+      case 201:
+        const result = await res.json();
+        console.log(result);
+        history.push('/login');
+        break;
+
+      default:
+        setUserExists(true);
+        break;
+    }
   };
 
   return (
@@ -89,19 +87,6 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSignUp}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="name"
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                onChange={(e) => setName(e.target.value)}
-                autoFocus
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"

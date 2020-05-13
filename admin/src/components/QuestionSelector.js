@@ -21,27 +21,67 @@ export default function QuestionSelector(props) {
   const authToken = auth.getToken();
 
   useEffect(() => {
-    fetch('http://localhost:3001/fetch/questions', { headers: { Authorization: `Bearer ${authToken}` } })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          const questionNumbers = data.questions.filter((q) => !q.isDone).map((q) => q.qNo);
-          setQuestions(questionNumbers);
-        }
+    async function getQuestionNumbers() {
+      const res = await fetch(`http://localhost:3001/api/question`, {
+        headers: { Authorization: `Bearer ${authToken}` },
       });
-  }, [currentQuestion.qNo, authToken]);
+      switch (res.status) {
+        case 200:
+          const result = await res.json();
+          const data = result.data;
+          setQuestions(data.filter((q) => !q.isDone).map((q) => q.qno));
+          break;
+        default:
+          console.log(await res.json());
+          break;
+      }
+    }
+    getQuestionNumbers();
+  }, [authToken, currentQuestion]);
 
-  const handleChange = (e) => {
-    fetch(`http://localhost:3001/feed/setcurrentquestion/${currentQuestion.qNo}`, { method: 'POST' });
-    setCurrentQuestion(Object.assign({}, currentQuestion, { qNo: e.target.value }));
+  const handleChange = async (e) => {
+    const qno = parseInt(e.target.value);
+    const res = await fetch(`http://localhost:3001/api/question/${qno}`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    switch (res.status) {
+      case 200:
+        const result = await res.json();
+        const data = result.data;
+        let { isDone, qno, question, options } = data;
+        setCurrentQuestion(
+          Object.assign({}, currentQuestion, { isDone: isDone, qno: qno, question: question, options: options })
+        );
+        break;
+      default:
+        console.log(await res.json());
+        break;
+    }
   };
-  const handleDelete = () => {
-    fetch(`http://localhost:3001/feed/markquesasdone/${currentQuestion.qNo}`, { method: 'POST' });
-    setCurrentQuestion(Object.assign({}, currentQuestion, { qNo: 0 }));
+  const handleDelete = async () => {
+    const qno = currentQuestion.qno;
+    await fetch(`http://localhost:3001/api/question/${qno}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({ isDone: true }),
+    });
+    setCurrentQuestion(Object.assign({}, currentQuestion, { qno: 0, isDone: true }));
   };
   const handleReset = async () => {
-    fetch(`http://localhost:3001/feed/resetquesdone`, { method: 'POST' });
-    setCurrentQuestion(Object.assign({}, currentQuestion, { qNo: 0 }));
+    await fetch(`http://localhost:3001/api/question`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({ isDone: false }),
+    });
+    setCurrentQuestion(Object.assign({}, currentQuestion, { qno: 0, isDone: true }));
   };
   return (
     <div className={classes.root}>
@@ -53,7 +93,7 @@ export default function QuestionSelector(props) {
           <Select
             labelId="demo-simple-select-helper-label"
             id="demo-simple-select-helper"
-            value={currentQuestion.qNo}
+            value={currentQuestion.qno}
             onChange={handleChange}
           >
             <MenuItem value={0}>
@@ -69,9 +109,9 @@ export default function QuestionSelector(props) {
         </FormControl>
         <br />
         <br />
-        {currentQuestion.qNo ? (
+        {currentQuestion.qno ? (
           <Chip
-            label={`currentQuestion  ${currentQuestion.qNo}`}
+            label={`currentQuestion  ${currentQuestion.qno}`}
             onDelete={handleDelete}
             color="primary"
             variant="outlined"
