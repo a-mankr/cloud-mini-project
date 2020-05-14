@@ -104,7 +104,7 @@ export default function DenseAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" color="inherit" className={classes.title}>
-            Bluffmaster
+            Player view
           </Typography>
           {auth.isAuthenticated() ? (
             <Tooltip title="Logout">

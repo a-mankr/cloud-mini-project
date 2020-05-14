@@ -41,32 +41,31 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [notRegistered, setNotRegistered] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       email: email,
       password: password,
     };
-    fetch('http://localhost:3001/auth/login', {
+    const res = await fetch('http://localhost:3001/signin', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status === 403) {
-          setNotRegistered(true);
-        }
-        return res.json();
-      })
-      .then((result) => {
-        if (result.success) {
-          auth.setToken(result.token, () => history.push('/'));
-        }
-      })
-      .catch(console.log);
+    });
+    switch (res.status) {
+      case 401:
+        setNotRegistered(true);
+        break;
+      case 201:
+        const data = await res.json();
+        auth.setToken(data.token, () => history.push('/'));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -75,7 +74,7 @@ export default function SignIn() {
       <div className={classes.paper}>
         {notRegistered ? (
           <Alert severity="warning" variant="outlined">
-            Username or password not found, Sign up now!
+            Username and password match not found, Sign up now!
           </Alert>
         ) : (
           ''

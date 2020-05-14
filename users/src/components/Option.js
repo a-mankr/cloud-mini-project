@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     color: 'black',
   },
 }));

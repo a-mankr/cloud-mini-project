@@ -8,11 +8,11 @@ COPY package.json /users/
 
 RUN yarn
 
+RUN yarn global add install serve
+
 COPY . /users/
 
 RUN yarn build --production
-
-RUN yarn global add install serve
 
 EXPOSE 3000
 
