@@ -52,6 +52,15 @@ export default function QuestionSelector(props) {
         setCurrentQuestion(
           Object.assign({}, currentQuestion, { isDone: isDone, qno: qno, question: question, options: options })
         );
+        await fetch(`http://localhost:3001/api/variables`, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({ selectedQuestion: qno }),
+        });
         break;
       default:
         console.log(await res.json());

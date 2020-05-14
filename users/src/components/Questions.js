@@ -25,10 +25,26 @@ export default function Questions() {
   const authToken = auth.getToken();
   const [currentQuestion, setCurrentQuestion] = useState({ isDone: true, qno: 0, question: 'Question', options: [] });
 
-  const qno = 1;
+  async function getVariables() {
+    const res = await fetch(`http://localhost:3001/api/variables`, {
+      headers: { Authorization: `Bearer ${authToken}` },
+    });
+    switch (res.status) {
+      case 200:
+        const result = await res.json();
+        let { bluffTeam, votingOpen, selectedQuestion } = result.data;
+        return { bluffTeam, votingOpen, selectedQuestion };
+      default:
+        console.log(await res.json());
+        return null;
+    }
+  }
   useEffect(() => {
     async function fetchCurrentQuestion() {
-      const res = await fetch(`http://localhost:3001/api/question/${qno}`, {
+      const variables = await getVariables();
+      console.log(variables);
+      let { selectedQuestion } = variables;
+      const res = await fetch(`http://localhost:3001/api/question/${selectedQuestion}`, {
         headers: { Authorization: `Bearer ${authToken}` },
       });
       switch (res.status) {
@@ -43,7 +59,7 @@ export default function Questions() {
       }
     }
     fetchCurrentQuestion();
-  }, [authToken, qno]);
+  }, [authToken]);
   return (
     <div className={classes.root}>
       <Grid container spacing={3} justify="center" className={classes.question}>

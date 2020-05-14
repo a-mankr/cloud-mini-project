@@ -6,13 +6,13 @@ WORKDIR /admin
 
 COPY package.json /admin/
 
+RUN yarn global add serve
+
 RUN yarn
 
 COPY . /admin/
 
 RUN yarn build --production
-
-RUN yarn global add install serve
 
 EXPOSE 3002
 
