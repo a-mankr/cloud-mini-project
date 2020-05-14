@@ -5,7 +5,6 @@ import './App.css';
 import ProtectedRoute from './components/ProtectedRoute';
 import Navbar from './components/Navbar';
 import Admin from './components/Admin';
-import Questions from './components/Questions';
 import Login from './components/Login';
 import Signup from './components/Signup';
 
@@ -22,7 +21,6 @@ function App() {
         <ProtectedRoute exact path="/" component={Admin} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Signup} />
-        <Route exact path="/audience" component={Questions} />
         <Route path="*" component={() => '404 NOT FOUND'} />
       </Switch>
     </div>
