@@ -14,6 +14,8 @@ COPY . /users/
 
 RUN yarn build --production
 
+RUN rm -rf config/ node_modules/ public/ scripts/ src/ package.json yarn.lock README.md
+
 EXPOSE 3000
 
 CMD serve -s build -l 3000
